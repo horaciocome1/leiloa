@@ -3,10 +3,7 @@ package io.github.horaciocome1.leiloa.data.participants
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.firestore.ktx.toObjects
-import io.github.horaciocome1.leiloa.data.product.Product
-import io.github.horaciocome1.leiloa.data.product.ProductsService
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow

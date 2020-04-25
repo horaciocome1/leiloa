@@ -4,7 +4,6 @@ import android.view.View
 import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.findNavController
 import io.github.horaciocome1.leiloa.data.company.CompaniesRepository
 import io.github.horaciocome1.leiloa.util.ObservableViewModel
 import io.github.horaciocome1.leiloa.util.navigate

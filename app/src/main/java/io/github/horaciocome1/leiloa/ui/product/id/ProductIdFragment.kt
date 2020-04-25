@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import io.github.horaciocome1.leiloa.R
 import io.github.horaciocome1.leiloa.databinding.FragmentProductIdBinding
-import io.github.horaciocome1.leiloa.ui.product.id.register.ProductIdRegisterFragmentArgs
 
 /**
  * fragment responsible for handling the informing productId step
