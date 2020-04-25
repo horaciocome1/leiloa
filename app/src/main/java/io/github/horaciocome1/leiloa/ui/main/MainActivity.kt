@@ -1,7 +1,11 @@
 package io.github.horaciocome1.leiloa.ui.main
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
@@ -42,6 +46,8 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     override fun onAuthStateChanged(auth: FirebaseAuth) {
         if (auth.currentUser == null)
             navController.navigate(R.id.destination_sign_in)
+        else if (navController.currentDestination?.id == R.id.destination_sign_in)
+            navController.navigateUp()
     }
 
     override fun onDestinationChanged(
@@ -60,10 +66,36 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
     override fun onSupportNavigateUp(): Boolean = navController.navigateUp()
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if (auth.currentUser == null)
+            finish()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_logout -> auth.signOut()
+            R.id.item_about -> openAboutPage()
+            else -> return false
+        }
+        return true
+    }
+
     private fun initUI() {
         setSupportActionBar(binding.materialToolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         navController.addOnDestinationChangedListener(this)
+    }
+
+    private fun  openAboutPage() {
+        val url = getString(R.string.project_url)
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        startActivity(intent)
     }
 
 }

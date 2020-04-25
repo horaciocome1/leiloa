@@ -5,6 +5,7 @@ import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
+import io.github.horaciocome1.leiloa.data.company.CompaniesRepository
 import io.github.horaciocome1.leiloa.data.product.ProductsRepository
 import io.github.horaciocome1.leiloa.util.ObservableViewModel
 import kotlinx.coroutines.Deferred
@@ -12,7 +13,11 @@ import kotlinx.coroutines.async
 
 class ProductIdViewModel : ObservableViewModel() {
 
-    private val repository: ProductsRepository by lazy {
+    private val companiesRepository: CompaniesRepository by lazy {
+        CompaniesRepository.getInstance()
+    }
+
+    private val productsRepository: ProductsRepository by lazy {
         ProductsRepository.getInstance()
     }
 
@@ -21,9 +26,12 @@ class ProductIdViewModel : ObservableViewModel() {
     @Bindable
     val productId: MutableLiveData<String> = MutableLiveData<String>()
 
+    fun doDomainBelongToMe() = companiesRepository.doDomainBelongToMeAsync(companyDomain)
+
+
     fun navigateToProductAsync(view: View): Deferred<Boolean> =
         viewModelScope.async {
-            val isReal = repository.isProductIdRealAsync(companyDomain, productId.value!!)
+            val isReal = productsRepository.isProductIdRealAsync(companyDomain, productId.value!!)
                 .await()
             if (!isReal)
                 return@async false

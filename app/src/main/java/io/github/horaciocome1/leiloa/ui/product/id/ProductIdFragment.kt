@@ -44,6 +44,7 @@ class ProductIdFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         setCompanyDomainToViewModel()
+        setRegisterButtonVisibility()
         viewModel.productId.observe(this, Observer { alertIfEmpty(it) })
     }
 
@@ -51,6 +52,14 @@ class ProductIdFragment : Fragment() {
         viewModel.companyDomain = ProductIdFragmentArgs.fromBundle(it)
             .companyDomain
     }
+
+    private fun setRegisterButtonVisibility() =
+        lifecycleScope.launchWhenStarted {
+            val belongsToMe = viewModel.doDomainBelongToMe()
+                .await()
+            if (belongsToMe)
+                binding.registerButton.visibility = View.VISIBLE
+        }
 
     private fun alertIfEmpty(companyDomain: String) {
         binding.productIdTextInputLayout.error =
