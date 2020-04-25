@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav"
+    app:startDestination="@id/destination_company_domain">
+    <fragment
+        android:id="@+id/destination_company_domain"
+        android:name="io.github.horaciocome1.leiloa.ui.company.CompanyDomainFragment"
+        android:label="Company Domain"
+        tools:layout="@layout/fragment_company_domain">
+        <action
+            android:id="@+id/action_companyDomainFragment_to_productIdFragment"
+            app:destination="@id/destination_product_id"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_companyDomainFragment_to_companyDomainRegisterFragment"
+            app:destination="@id/destinatination_company_domain_register"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/destination_product_id"
+        android:name="io.github.horaciocome1.leiloa.ui.product.id.ProductIdFragment"
+        android:label="Product ID"
+        tools:layout="@layout/fragment_product_id">
+        <action
+            android:id="@+id/action_productIdFragment_to_productFragment"
+            app:destination="@id/destination_product"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_productIdFragment_to_registerProductIdFragment"
+            app:destination="@id/destination_product_id_register"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <argument
+            android:name="company_domain"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/destinatination_company_domain_register"
+        android:name="io.github.horaciocome1.leiloa.ui.company.register.CompanyDomainRegisterFragment"
+        android:label="Register"
+        tools:layout="@layout/fragment_company_domain_register">
+        <action
+            android:id="@+id/action_companyDomainRegisterFragment_to_productIdFragment"
+            app:destination="@id/destination_product_id"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/destination_product_id_register"
+        android:name="io.github.horaciocome1.leiloa.ui.product.id.register.ProductIdRegisterFragment"
+        android:label="Register"
+        tools:layout="@layout/fragment_product_id_register">
+        <action
+            android:id="@+id/action_registerProductIdFragment_to_productFragment"
+            app:destination="@id/destination_product"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <argument
+            android:name="company_domain"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/destination_product"
+        android:name="io.github.horaciocome1.leiloa.ui.product.ProductFragment"
+        android:label="Product"
+        tools:layout="@layout/fragment_product" >
+        <argument
+            android:name="company_domain"
+            app:argType="string" />
+        <argument
+            android:name="product_id"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/destination_sign_in"
+        android:name="io.github.horaciocome1.leiloa.ui.signin.SignInFragment"
+        android:label="Sign In"
+        tools:layout="@layout/fragment_sign_in" />
+</navigation>

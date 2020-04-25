@@ -1,0 +1,72 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="MyTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorControlNormal">@color/colorPrimary</item>
+        <item name="textAllCaps">true</item>
+        <item name="buttonStyle">@style/MyWidget.UnelevatedButton</item>
+        <item name="textInputStyle">@style/MyWidget.TextInputLayout</item>
+        <item name="editTextStyle">@style/MyWidget.TextInputEditText</item>
+        <item name="shapeAppearanceLargeComponent">
+            @style/ShapeAppearance.MyApp.LargeComponent
+        </item>
+        <item name="shapeAppearanceMediumComponent">
+            @style/ShapeAppearance.MyApp.MediumComponent
+        </item>
+        <item name="shapeAppearanceSmallComponent">
+            @style/ShapeAppearance.MyApp.SmallComponent
+        </item>
+    </style>
+
+    <style name="MyWidget.UnelevatedButton"
+        parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="backgroundTint">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
+        <item name="iconTint">@color/colorOnPrimary</item>
+        <item name="rippleColor">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="MyWidget.OutlinedButton"
+        parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="iconTint">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="rippleColor">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="MyWidget.TextInputLayout"
+        parent="Widget.Design.TextInputLayout">
+        <item name="hintEnabled">true</item>
+        <item name="hintAnimationEnabled">true</item>
+        <item name="counterEnabled">true</item>
+        <item name="helperTextEnabled">true</item>
+    </style>
+
+    <style name="MyWidget.TextInputEditText"
+        parent="Widget.AppCompat.EditText">
+        <item name="android:textAppearance">
+            @style/TextAppearance.MaterialComponents.Headline5
+        </item>
+    </style>
+
+    <!-- Shape Appearance -->
+    <style name="ShapeAppearance.MyApp.LargeComponent"
+        parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_corner_default</item>
+    </style>
+    <style name="ShapeAppearance.MyApp.MediumComponent"
+        parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_corner_default</item>
+    </style>
+    <style name="ShapeAppearance.MyApp.SmallComponent"
+        parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/radius_corner_default</item>
+    </style>
+
+</resources>

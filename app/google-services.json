@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "958785724284",
+    "firebase_url": "https://leiloa.firebaseio.com",
+    "project_id": "leiloa",
+    "storage_bucket": "leiloa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:958785724284:android:38debbe899143c80f78ef9",
+        "android_client_info": {
+          "package_name": "io.github.horaciocome1.leiloa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "958785724284-geqoqkgeul6l9hdj4st145r7gscuq0si.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.github.horaciocome1.leiloa",
+            "certificate_hash": "56a3a65bc51c33989d1e7127a220667df2701171"
+          }
+        },
+        {
+          "client_id": "958785724284-8kdbnsukue4qvhhkknm7r95j2ddn0cb3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGbZ80ceBgERqdp-b6LrTPgxUkBK_6fMs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "958785724284-8kdbnsukue4qvhhkknm7r95j2ddn0cb3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
