@@ -57,10 +57,13 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     ) {
         when (destination.id) {
             R.id.destination_sign_in ->
-                supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                supportActionBar?.hide()
             R.id.destination_company_domain ->
                 supportActionBar?.setDisplayHomeAsUpEnabled(false)
-            else -> supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            else -> {
+                supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                supportActionBar?.show()
+            }
         }
     }
 
