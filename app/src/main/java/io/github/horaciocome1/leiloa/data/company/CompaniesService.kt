@@ -62,8 +62,7 @@ class CompaniesService : CompaniesServiceInterface {
     override fun registerDomainAsync(companyDomain: String): Deferred<String> =
         coroutineScope.async {
             try {
-//                val uid = auth.currentUser!!.uid
-                val uid = "horacio"
+                val uid = auth.currentUser!!.uid
                 val company = Company(id = companyDomain, ownerId = uid)
                 companiesCollection.document(companyDomain)
                     .set(company)
@@ -75,8 +74,7 @@ class CompaniesService : CompaniesServiceInterface {
     override fun doDomainBelongToMeAsync(companyDomain: String): Deferred<Boolean> =
         coroutineScope.async {
             try {
-//                val uid = auth.currentUser!!.uid
-                val uid = "horacio"
+                val uid = auth.currentUser!!.uid
                 val snapshot = companiesCollection.document(companyDomain)
                     .get()
                     .await()

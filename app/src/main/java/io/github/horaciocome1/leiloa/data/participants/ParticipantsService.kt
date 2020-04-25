@@ -72,10 +72,8 @@ class ParticipantsService : ParticipantsServiceInterface {
     ): Deferred<Boolean> =
         coroutineScope.async {
             try {
-                val uid = "horacio"
-                val name = "Horácio Comé"
-//                val uid = auth.currentUser!!.uid
-//                val name = auth.currentUser!!.uid
+                val uid = auth.currentUser!!.uid
+                val name = auth.currentUser!!.uid
                 val participant = Participant(id = uid, name = name, price = price)
                 val product = mapOf(
                     FIELD_NAME_PRICE to price

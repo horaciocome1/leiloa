@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">leiloa</string>
+    <string name="project_url">https://github.com/horaciocome1/leiloa/</string>
     <string name="next">Next</string>
     <string name="register_company">Register</string>
     <string name="register_product">Register</string>
@@ -27,4 +28,7 @@
     <string name="product_is_not_real">Could no find the product</string>
     <string name="product_id_is_not_available">This id is not available</string>
     <string name="add_content">add content</string>
+    <string name="sign_in_error">Could not sign you in. Check your network.</string>
+    <string name="log_out">Log out</string>
+    <string name="about">About</string>
 </resources>
