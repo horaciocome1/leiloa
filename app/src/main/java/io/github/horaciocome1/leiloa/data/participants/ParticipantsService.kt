@@ -73,7 +73,7 @@ class ParticipantsService : ParticipantsServiceInterface {
         coroutineScope.async {
             try {
                 val uid = auth.currentUser!!.uid
-                val name = auth.currentUser!!.uid
+                val name = auth.currentUser!!.displayName!!
                 val participant = Participant(id = uid, name = name, price = price)
                 val product = mapOf(
                     FIELD_NAME_PRICE to price

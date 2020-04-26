@@ -39,6 +39,7 @@ class ProductIdRegisterViewModel : ObservableViewModel() {
                 Product(
                     id = productId.value!!,
                     termsAndConditions = termsAndConditions.value!!,
+                    startPrice = startPrice.value!!.toInt(),
                     price = startPrice.value!!.toInt(),
                     active = isActive
                 )
