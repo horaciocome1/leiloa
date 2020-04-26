@@ -1,34 +1,36 @@
 <resources>
-    <string name="app_name">leiloa</string>
-    <string name="project_url">https://github.com/horaciocome1/leiloa/</string>
+    <string name="app_name" translatable="false">leiloa</string>
+    <string name="project_url" translatable="false">https://github.com/horaciocome1/leiloa/</string>
     <string name="next">Next</string>
-    <string name="register_company">Register</string>
-    <string name="register_product">Register</string>
     <string name="domain">Domain</string>
     <string name="company_domain_helper">Ex.: thecompany.co.mz</string>
-    <string name="product_id_helper">Ex.: GeleiraSamsung597</string>
+    <string name="product_id_helper">Ex.: SamsungFreezer97</string>
     <string name="product_id">Product ID</string>
     <string name="register">Register</string>
     <string name="terms_and_conditions_helper">Describe the rules or product state</string>
     <string name="terms_and_conditions">Terms and conditions</string>
     <string name="start_price">Start price (MT)</string>
+    <string name="actual_price">Actual rice (MT)</string>
     <string name="start_enabled">Start Enabled</string>
     <string name="welcome">Welcome,</string>
-    <string name="_1000_mt">1000 MT</string>
-    <string name="_500_mt">500 MT</string>
-    <string name="_100_mt">100 MT</string>
+    <string name="_1000_mt" translatable="false">1000 MT</string>
+    <string name="_500_mt" translatable="false">500 MT</string>
+    <string name="_100_mt" translatable="false">100 MT</string>
     <string name="active">Active</string>
     <string name="inactive">Inactive</string>
-    <string name="icon_representing_an_user">Icon representing an user</string>
-    <string name="building">building</string>
+    <string name="icon_representing_an_user">Icon representing an participant</string>
+    <string name="building">Icon representing an building</string>
     <string name="product">product</string>
     <string name="cannot_be_blank">Cannot be blank</string>
     <string name="domain_is_not_available">Not available</string>
     <string name="domain_is_not_real">Could no find the domain</string>
     <string name="product_is_not_real">Could no find the product</string>
     <string name="product_id_is_not_available">This id is not available</string>
-    <string name="add_content">add content</string>
+    <string name="add_content">Icon representing add content</string>
     <string name="sign_in_error">Could not sign you in. Check your network.</string>
     <string name="log_out">Log out</string>
     <string name="about">About</string>
+    <string name="share">Share</string>
+    <string name="invite_to_app">Get *_leiloa_* app at</string>
+    <string name="invite"> is inviting you to this private auction.</string>
 </resources>

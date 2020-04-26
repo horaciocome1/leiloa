@@ -1,5 +1,6 @@
 package io.github.horaciocome1.leiloa.ui.product
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.widget.CompoundButton
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
 import io.github.horaciocome1.leiloa.R
 import io.github.horaciocome1.leiloa.data.company.Company
 import io.github.horaciocome1.leiloa.databinding.FragmentProductBinding
@@ -78,6 +80,7 @@ class ProductFragment : Fragment(), CompoundButton.OnCheckedChangeListener {
         binding.contentInclude.recyclerView.adapter = recyclerViewAdapter
         binding.contentInclude.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.contentInclude.include.isActiveSwitch.setOnCheckedChangeListener(this)
+        binding.contentInclude.include.shareButton.setOnClickListener(this::share)
     }
 
     private fun setArgsToViewModel() = arguments?.let {
@@ -107,13 +110,42 @@ class ProductFragment : Fragment(), CompoundButton.OnCheckedChangeListener {
 
     private fun enableSwitch() =
         lifecycleScope.launchWhenStarted {
-            binding.contentInclude.include.isActiveSwitch.isEnabled =
-                viewModel.doDomainBelongToMeAsync()
+            val belongsToMe = viewModel.doDomainBelongToMeAsync()
                     .await()
+            binding.contentInclude.include.isActiveSwitch.isEnabled = belongsToMe
+            if (belongsToMe)
+                binding.contentInclude.include.shareButton.visibility = View.VISIBLE
         }
 
-    /**
-     * Preciso de progress bars em cima dos buttons 16 dp
-     */
+    private fun share(view: View) {
+        view.isEnabled = false
+        lifecycleScope.launchWhenStarted {
+            val auth = FirebaseAuth.getInstance()
+            var message = "${auth.currentUser!!.displayName} " +
+                    "${getString(R.string.invite)}\n\n\n"
+            binding.product?.let {
+                message += "*${getString(R.string.domain)}:* " +
+                        "${viewModel.companyDomain}\n"
+                message += "*${getString(R.string.product_id)}:* " +
+                        "${it.id}\n\n"
+                message += "${getString(R.string.terms_and_conditions)}: " +
+                        "${it.termsAndConditions}\n\n"
+                message += "${getString(R.string.start_price)}: " +
+                        "${it.startPrice}"
+                message += " | ${getString(R.string.actual_price)}: " +
+                        "${it.price}\n\n"
+                message += "${getString(R.string.invite_to_app)} " +
+                        getString(R.string.project_url)
+            }
+            val sendIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, message)
+                type = "text/plain"
+            }
+            val shareIntent = Intent.createChooser(sendIntent, viewModel.productId)
+            startActivity(shareIntent)
+            view.isEnabled = true
+        }
+    }
 
 }
