@@ -2,6 +2,8 @@ package io.github.horaciocome1.leiloa.data.participants
 
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.toObjects
 import kotlinx.coroutines.*
@@ -44,6 +46,16 @@ class ParticipantsService : ParticipantsServiceInterface {
         CoroutineScope(Dispatchers.IO)
     }
 
+    private val crashlytics: FirebaseCrashlytics by lazy {
+        val crashlytics = FirebaseCrashlytics.getInstance()
+        try {
+            crashlytics.setUserId(auth.currentUser!!.uid)
+        } catch (exception: FirebaseAuthException) {
+            crashlytics.recordException(exception)
+        }
+        return@lazy crashlytics
+    }
+
     @ExperimentalCoroutinesApi
     override fun watchParticipants(
         companyDomain: String,
@@ -53,6 +65,8 @@ class ParticipantsService : ParticipantsServiceInterface {
             val listener = EventListener<QuerySnapshot> { snapshot, exception ->
                 if (exception == null && snapshot != null && !snapshot.isEmpty)
                     snapshot.toObjects<Participant>().also { offer(it) }
+                else if (exception != null)
+                    crashlytics.recordException(exception)
             }
             val registration = companiesCollection.document(companyDomain)
                 .collection(COLLECTION_NAME_PRODUCTS)
@@ -91,7 +105,10 @@ class ParticipantsService : ParticipantsServiceInterface {
                 batch.commit()
                     .await()
                 return@async true
-            } catch (exception: FirebaseException) { return@async false }
+            } catch (exception: FirebaseException) {
+                crashlytics.recordException(exception)
+                return@async false
+            }
 
         }
 

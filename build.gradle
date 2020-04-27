@@ -25,8 +25,9 @@ buildscript {
     ext.google_services_auth_version = '18.0.0'
 
     // FIREBASE
-    ext.firebase_boom_version = '25.2.0'
+    ext.firebase_boom_version = '25.3.0'
     ext.firebase_firestore_ktx_version = '21.4.2'
+    ext.firebase_crashlytics_gradle = '2.0.0'
 
     // JUNIT
     ext.junit_version = '4.12'
@@ -41,6 +42,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$androidx_navigation_version"
         classpath "com.google.gms:google-services:$google_services_version"
+        classpath "com.google.firebase:firebase-crashlytics-gradle:$firebase_crashlytics_gradle"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

@@ -1,5 +1,8 @@
 package io.github.horaciocome1.leiloa.data.product
 
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.*
@@ -15,12 +18,19 @@ class ProductsService : ProductsServiceInterface {
         const val COLLECTION_NAME_COMPANIES = "companies"
         const val COLLECTION_NAME_PRODUCTS = "products"
 
-        const val FIELD_NAME_IS_ACTIVE = "active"
+        const val FIELD_NAME_ACTIVE = "active"
+
+        const val MESSAGE_PRODUCT_ID_NOT_FOUND = "Could not find the product ID "
+        const val MESSAGE_PRODUCT_ID_NOT_AVAILABLE = "Product ID is not available "
 
     }
 
     private val firestore: FirebaseFirestore by lazy {
         FirebaseFirestore.getInstance()
+    }
+
+    private val auth: FirebaseAuth by lazy {
+        FirebaseAuth.getInstance()
     }
 
     private val companiesCollection: CollectionReference by lazy {
@@ -29,6 +39,16 @@ class ProductsService : ProductsServiceInterface {
 
     private val coroutineScope: CoroutineScope by lazy {
         CoroutineScope(Dispatchers.IO)
+    }
+
+    private val crashlytics: FirebaseCrashlytics by lazy {
+        val crashlytics = FirebaseCrashlytics.getInstance()
+        try {
+            crashlytics.setUserId(auth.currentUser!!.uid)
+        } catch (exception: FirebaseAuthException) {
+            crashlytics.recordException(exception)
+        }
+        return@lazy crashlytics
     }
 
     override fun isProductIdRealAsync(
@@ -44,7 +64,10 @@ class ProductsService : ProductsServiceInterface {
                     .await()
                 if (snapshot != null && snapshot.exists()) return@async true
                 return@async false
-            } catch (exception: FirebaseFirestoreException) { return@async false }
+            } catch (exception: FirebaseFirestoreException) {
+                crashlytics.recordException(exception)
+                return@async false
+            }
         }
 
     override fun isProductIdAvailableAsync(
@@ -60,7 +83,10 @@ class ProductsService : ProductsServiceInterface {
                     .await()
                 if (snapshot != null && snapshot.exists()) return@async false
                 return@async true
-            } catch (exception: FirebaseFirestoreException) { return@async false }
+            } catch (exception: FirebaseFirestoreException) {
+                crashlytics.recordException(exception)
+                return@async false
+            }
         }
 
     override fun registerProductAsync(
@@ -74,7 +100,10 @@ class ProductsService : ProductsServiceInterface {
                     .document(product.id)
                     .set(product)
                 return@async product.id
-            } catch (exception: FirebaseFirestoreException) { return@async "" }
+            } catch (exception: FirebaseFirestoreException) {
+                crashlytics.recordException(exception)
+                return@async ""
+            }
         }
 
     override fun setActiveStatusAsync(
@@ -85,14 +114,17 @@ class ProductsService : ProductsServiceInterface {
         coroutineScope.async {
             try {
                 val data = mapOf(
-                    FIELD_NAME_IS_ACTIVE to isActive
+                    FIELD_NAME_ACTIVE to isActive
                 )
                 companiesCollection.document(companyDomain)
                     .collection(COLLECTION_NAME_PRODUCTS)
                     .document(productID)
                     .set(data, SetOptions.merge())
                 return@async true
-            } catch (exception: FirebaseFirestoreException) { return@async false }
+            } catch (exception: FirebaseFirestoreException) {
+                crashlytics.recordException(exception)
+                return@async false
+            }
         }
 
     @ExperimentalCoroutinesApi
@@ -104,10 +136,12 @@ class ProductsService : ProductsServiceInterface {
             val listener = EventListener<DocumentSnapshot> { snapshot, exception ->
                 if (exception == null && snapshot != null && snapshot.exists())
                     snapshot.toObject<Product>()?.also {
-                        val isActive = snapshot[FIELD_NAME_IS_ACTIVE] as Boolean
+                        val isActive = snapshot[FIELD_NAME_ACTIVE] as Boolean
                         it.active = isActive
                         offer(it)
                     }
+                else if (exception != null)
+                    crashlytics.recordException(exception)
             }
             val registration = companiesCollection.document(companyDomain)
                 .collection(COLLECTION_NAME_PRODUCTS)
