@@ -31,14 +31,14 @@
         <item name="backgroundTint">@color/colorPrimary</item>
         <item name="android:textColor">@color/colorOnPrimary</item>
         <item name="iconTint">@color/colorOnPrimary</item>
-        <item name="rippleColor">@color/colorPrimaryDark</item>
+        <item name="rippleColor">@color/colorPrimary</item>
     </style>
 
     <style name="MyWidget.OutlinedButton"
         parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="iconTint">@color/colorPrimary</item>
         <item name="android:textColor">@color/colorPrimary</item>
-        <item name="rippleColor">@color/colorPrimaryDark</item>
+        <item name="rippleColor">@color/colorPrimary</item>
     </style>
 
     <style name="MyWidget.TextInputLayout"
