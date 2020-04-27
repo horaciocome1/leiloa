@@ -33,4 +33,6 @@
     <string name="share">Share</string>
     <string name="invite_to_app">Get *_leiloa_* app at</string>
     <string name="invite"> is inviting you to this private auction.</string>
+    <string name="company_domain">Company Domain</string>
+    <string name="sign_in">Sign In</string>
 </resources>

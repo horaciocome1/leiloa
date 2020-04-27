@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/destination_company_domain"
         android:name="io.github.horaciocome1.leiloa.ui.company.CompanyDomainFragment"
-        android:label="Company Domain"
+        android:label="@string/company_domain"
         tools:layout="@layout/fragment_company_domain">
         <action
             android:id="@+id/action_open_product_id_from_company_domain"
@@ -27,7 +27,7 @@
     <fragment
         android:id="@+id/destination_product_id"
         android:name="io.github.horaciocome1.leiloa.ui.product.id.ProductIdFragment"
-        android:label="Product ID"
+        android:label="@string/product_id"
         tools:layout="@layout/fragment_product_id">
         <action
             android:id="@+id/action_open_product_from_product_id"
@@ -50,7 +50,7 @@
     <fragment
         android:id="@+id/destinatination_company_domain_register"
         android:name="io.github.horaciocome1.leiloa.ui.company.register.CompanyDomainRegisterFragment"
-        android:label="Register"
+        android:label="@string/register"
         tools:layout="@layout/fragment_company_domain_register">
         <action
             android:id="@+id/action_open_product_id_from_company_domain_register"
@@ -63,7 +63,7 @@
     <fragment
         android:id="@+id/destination_product_id_register"
         android:name="io.github.horaciocome1.leiloa.ui.product.id.register.ProductIdRegisterFragment"
-        android:label="Register"
+        android:label="@string/register"
         tools:layout="@layout/fragment_product_id_register">
         <action
             android:id="@+id/action_open_product_from_product_id_register"
@@ -79,7 +79,7 @@
     <fragment
         android:id="@+id/destination_product"
         android:name="io.github.horaciocome1.leiloa.ui.product.ProductFragment"
-        android:label="Product"
+        android:label="@string/product"
         tools:layout="@layout/fragment_product" >
         <argument
             android:name="company_domain"
@@ -91,6 +91,6 @@
     <fragment
         android:id="@+id/destination_sign_in"
         android:name="io.github.horaciocome1.leiloa.ui.signin.SignInFragment"
-        android:label="Sign In"
+        android:label="@string/sign_in"
         tools:layout="@layout/fragment_sign_in" />
 </navigation>
