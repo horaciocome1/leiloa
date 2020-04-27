@@ -10,7 +10,7 @@
     <string name="terms_and_conditions">Termos e condições</string>
     <string name="start_price">Preço inicial</string>
     <string name="actual_price">Preço atual</string>
-    <string name="start_enabled">Iniciar ativo</string>
+    <string name="start_active">Iniciar ativo</string>
     <string name="welcome">Bem-vindo,</string>
     <string name="active">Ativo</string>
     <string name="inactive">Inativo</string>
@@ -29,4 +29,6 @@
     <string name="share">Partilhar</string>
     <string name="invite_to_app">Descarregue o app *_leiloa_* em</string>
     <string name="invite">está a convidá-lo para um leilão privado</string>
+    <string name="company_domain">Domínio</string>
+    <string name="sign_in">Iniciar sessão</string>
 </resources>

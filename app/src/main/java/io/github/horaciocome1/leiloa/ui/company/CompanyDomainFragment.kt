@@ -29,7 +29,6 @@ class CompanyDomainFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = FragmentCompanyDomainBinding
             .inflate(inflater, container, false)
         return binding.root

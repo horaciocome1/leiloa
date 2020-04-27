@@ -30,7 +30,8 @@ class ProductIdRegisterViewModel : ObservableViewModel() {
 
     fun registerProductAsync(view: View, isActive: Boolean): Deferred<Boolean> =
         viewModelScope.async {
-            val isSuccessful = repository.isProductIdAvailableAsync(companyDomain, productId.value!!)
+            val isSuccessful = repository
+                .isProductIdAvailableAsync(companyDomain, productId.value!!)
                 .await()
             if (!isSuccessful)
                 return@async false
@@ -50,7 +51,7 @@ class ProductIdRegisterViewModel : ObservableViewModel() {
 
     private fun navigateToProduct(view: View, productId: String) =
         ProductIdRegisterFragmentDirections
-            .actionRegisterProductIdFragmentToProductFragment(companyDomain, productId)
+            .actionOpenProductFromProductIdRegister(companyDomain, productId)
             .navigate(view)
 
 }

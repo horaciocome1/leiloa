@@ -30,11 +30,11 @@
             layout="@layout/layout_product_bottombar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            bind:viewModel="@{viewModel}"
-            bind:product="@{product}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            bind:product="@{product}"
+            bind:viewModel="@{viewModel}" />
 
         <include
             android:id="@+id/contentInclude"

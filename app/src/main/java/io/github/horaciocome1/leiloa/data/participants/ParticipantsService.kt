@@ -51,9 +51,8 @@ class ParticipantsService : ParticipantsServiceInterface {
     ): Flow<List<Participant>>  =
         callbackFlow {
             val listener = EventListener<QuerySnapshot> { snapshot, exception ->
-                if (exception == null && snapshot != null && !snapshot.isEmpty) {
+                if (exception == null && snapshot != null && !snapshot.isEmpty)
                     snapshot.toObjects<Participant>().also { offer(it) }
-                }
             }
             val registration = companiesCollection.document(companyDomain)
                 .collection(COLLECTION_NAME_PRODUCTS)

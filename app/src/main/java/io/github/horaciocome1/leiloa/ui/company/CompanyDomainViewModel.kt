@@ -36,12 +36,12 @@ class CompanyDomainViewModel : ObservableViewModel() {
 
     private fun navigateToProductID(view: View) =
         CompanyDomainFragmentDirections
-            .actionCompanyDomainFragmentToProductIdFragment(companyDomain.value!!)
+            .actionOpenProductIdFromCompanyDomain(companyDomain.value!!)
             .navigate(view)
 
     fun navigateToRegister(view: View) =
         CompanyDomainFragmentDirections
-            .actionCompanyDomainFragmentToCompanyDomainRegisterFragment()
+            .actionOpenCompanyDomainRegister()
             .navigate(view)
 
 }

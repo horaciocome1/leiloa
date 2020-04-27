@@ -96,7 +96,10 @@ class ProductsService : ProductsServiceInterface {
         }
 
     @ExperimentalCoroutinesApi
-    override fun watchProduct(companyDomain: String, productID: String): Flow<Product> =
+    override fun watchProduct(
+        companyDomain: String,
+        productID: String
+    ): Flow<Product> =
         callbackFlow {
             val listener = EventListener<DocumentSnapshot> { snapshot, exception ->
                 if (exception == null && snapshot != null && snapshot.exists())
