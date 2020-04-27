@@ -8,6 +8,7 @@ import androidx.navigation.findNavController
 import io.github.horaciocome1.leiloa.data.company.CompaniesRepository
 import io.github.horaciocome1.leiloa.data.product.ProductsRepository
 import io.github.horaciocome1.leiloa.util.ObservableViewModel
+import io.github.horaciocome1.leiloa.util.navigate
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 
@@ -26,12 +27,13 @@ class ProductIdViewModel : ObservableViewModel() {
     @Bindable
     val productId: MutableLiveData<String> = MutableLiveData<String>()
 
-    fun doDomainBelongToMe() = companiesRepository.doDomainBelongToMeAsync(companyDomain)
+    suspend fun doDomainBelongToMe() = companiesRepository.doDomainBelongToMeAsync(companyDomain).await()
 
 
     fun navigateToProductAsync(view: View): Deferred<Boolean> =
         viewModelScope.async {
-            val isReal = productsRepository.isProductIdRealAsync(companyDomain, productId.value!!)
+            val isReal = productsRepository
+                .isProductIdRealAsync(companyDomain, productId.value!!)
                 .await()
             if (!isReal)
                 return@async false
@@ -39,18 +41,14 @@ class ProductIdViewModel : ObservableViewModel() {
             return@async true
         }
 
-    private fun navigateToProduct(view: View) {
-        val directions = ProductIdFragmentDirections
-            .actionProductIdFragmentToProductFragment(companyDomain, productId.value!!)
-        view.findNavController()
-            .navigate(directions)
-    }
+    private fun navigateToProduct(view: View) =
+        ProductIdFragmentDirections
+            .actionOpenProductFromProductId(companyDomain, productId.value!!)
+            .navigate(view)
 
-    fun navigateToProductIdRegister(view: View) {
-        val directions = ProductIdFragmentDirections
-            .actionProductIdFragmentToRegisterProductIdFragment(companyDomain)
-        view.findNavController()
-            .navigate(directions)
-    }
+    fun navigateToProductIdRegister(view: View) =
+        ProductIdFragmentDirections
+            .actionOpenProductIdRegister(companyDomain)
+            .navigate(view)
 
 }

@@ -10,14 +10,14 @@
         android:label="Company Domain"
         tools:layout="@layout/fragment_company_domain">
         <action
-            android:id="@+id/action_companyDomainFragment_to_productIdFragment"
+            android:id="@+id/action_open_product_id_from_company_domain"
             app:destination="@id/destination_product_id"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
-            android:id="@+id/action_companyDomainFragment_to_companyDomainRegisterFragment"
+            android:id="@+id/action_open_company_domain_register"
             app:destination="@id/destinatination_company_domain_register"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
@@ -30,14 +30,14 @@
         android:label="Product ID"
         tools:layout="@layout/fragment_product_id">
         <action
-            android:id="@+id/action_productIdFragment_to_productFragment"
+            android:id="@+id/action_open_product_from_product_id"
             app:destination="@id/destination_product"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
-            android:id="@+id/action_productIdFragment_to_registerProductIdFragment"
+            android:id="@+id/action_open_product_id_register"
             app:destination="@id/destination_product_id_register"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
@@ -53,7 +53,7 @@
         android:label="Register"
         tools:layout="@layout/fragment_company_domain_register">
         <action
-            android:id="@+id/action_companyDomainRegisterFragment_to_productIdFragment"
+            android:id="@+id/action_open_product_id_from_company_domain_register"
             app:destination="@id/destination_product_id"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
@@ -66,7 +66,7 @@
         android:label="Register"
         tools:layout="@layout/fragment_product_id_register">
         <action
-            android:id="@+id/action_registerProductIdFragment_to_productFragment"
+            android:id="@+id/action_open_product_from_product_id_register"
             app:destination="@id/destination_product"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
