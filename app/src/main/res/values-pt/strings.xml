@@ -10,7 +10,7 @@
     <string name="terms_and_conditions">Termos e condições</string>
     <string name="start_price">Preço inicial</string>
     <string name="actual_price">Preço atual</string>
-    <string name="start_enabled">Iniciar ativo</string>
+    <string name="start_active">Iniciar ativo</string>
     <string name="welcome">Bem-vindo,</string>
     <string name="active">Ativo</string>
     <string name="inactive">Inativo</string>

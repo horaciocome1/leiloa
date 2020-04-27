@@ -23,6 +23,7 @@
         <item name="shapeAppearanceSmallComponent">
             @style/ShapeAppearance.MyApp.SmallComponent
         </item>
+        <item name="fontFamily">@font/roboto</item>
     </style>
 
     <style name="MyWidget.UnelevatedButton"
