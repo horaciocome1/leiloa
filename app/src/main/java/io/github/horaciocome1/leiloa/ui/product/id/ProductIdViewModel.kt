@@ -27,7 +27,7 @@ class ProductIdViewModel : ObservableViewModel() {
     @Bindable
     val productId: MutableLiveData<String> = MutableLiveData<String>()
 
-    suspend fun doDomainBelongToMe() = companiesRepository.doDomainBelongToMeAsync(companyDomain).await()
+    fun doDomainBelongToMeAsync() = companiesRepository.doDomainBelongToMeAsync(companyDomain)
 
 
     fun navigateToProductAsync(view: View): Deferred<Boolean> =

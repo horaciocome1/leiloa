@@ -45,6 +45,9 @@ class ProductsRepository private constructor(
         service.setActiveStatusAsync(companyDomain, productID, isActive)
 
     @ExperimentalCoroutinesApi
-    override fun watchProduct(companyDomain: String, productID: String): Flow<Product> =
+    override fun watchProduct(
+        companyDomain: String,
+        productID: String
+    ): Flow<Product> =
         service.watchProduct(companyDomain, productID)
 }

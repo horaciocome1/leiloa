@@ -55,7 +55,7 @@ class ProductIdFragment : Fragment() {
 
     private fun setRegisterButtonVisibility() =
         lifecycleScope.launchWhenStarted {
-            val belongsToMe = viewModel.doDomainBelongToMe()
+            val belongsToMe = viewModel.doDomainBelongToMeAsync()
                 .await()
             if (belongsToMe)
                 binding.registerButton.visibility = View.VISIBLE

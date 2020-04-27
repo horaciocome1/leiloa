@@ -39,6 +39,7 @@
                 android:textColor="@color/colorOrangeLight"
                 app:icon="@drawable/outline_add_24"
                 app:iconTint="@color/colorOrangeLight"
+                app:rippleColor="@color/colorOrangeLight"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -56,6 +57,7 @@
                 android:textColor="@color/colorOrange"
                 app:icon="@drawable/outline_add_24"
                 app:iconTint="@color/colorOrange"
+                app:rippleColor="@color/colorOrange"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/add100Button" />
 
@@ -74,6 +76,7 @@
                 android:textColor="@color/colorOrangeDark"
                 app:icon="@drawable/outline_add_24"
                 app:iconTint="@color/colorOrangeDark"
+                app:rippleColor="@color/colorOrangeDark"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"

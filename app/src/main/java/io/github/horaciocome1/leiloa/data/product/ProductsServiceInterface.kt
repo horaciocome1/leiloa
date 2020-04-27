@@ -44,6 +44,9 @@ interface ProductsServiceInterface {
      * each time there is a difference in database, it send new product through the flow
      */
     @ExperimentalCoroutinesApi
-    fun watchProduct(companyDomain: String, productID: String): Flow<Product>
+    fun watchProduct(
+        companyDomain: String,
+        productID: String
+    ): Flow<Product>
 
 }
