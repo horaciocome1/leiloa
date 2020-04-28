@@ -52,6 +52,8 @@ class CompanyDomainRegisterFragment : Fragment() {
     }
 
     private fun register(view: View) {
+        if (viewModel.companyDomain.value.isNullOrBlank())
+            return
         view.isEnabled = false
         binding.progressBar.visibility = View.VISIBLE
         lifecycleScope.launchWhenStarted {

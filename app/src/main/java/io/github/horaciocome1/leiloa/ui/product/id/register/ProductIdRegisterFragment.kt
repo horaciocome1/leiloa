@@ -72,13 +72,13 @@ class ProductIdRegisterFragment : Fragment() {
     }
 
     private fun register(view: View) {
-        view.isEnabled = false
-        binding.progressBar.visibility = View.VISIBLE
         if (
             binding.productIdTextInputLayout.editText?.text.isNullOrBlank() ||
             binding.termsAndConditionsTextInputLayout.editText?.text.isNullOrBlank() ||
             binding.startPriceTextInputLayout.editText?.text.isNullOrBlank()
         ) return
+        view.isEnabled = false
+        binding.progressBar.visibility = View.VISIBLE
         val startActive = binding.startEnabledSwitch.isChecked
         lifecycleScope.launchWhenStarted {
             val isSuccessful = viewModel.registerProductAsync(view, startActive)
