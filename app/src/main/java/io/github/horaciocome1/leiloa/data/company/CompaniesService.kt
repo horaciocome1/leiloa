@@ -1,6 +1,7 @@
 package io.github.horaciocome1.leiloa.data.company
 
 import com.google.firebase.FirebaseException
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.crashlytics.FirebaseCrashlytics
