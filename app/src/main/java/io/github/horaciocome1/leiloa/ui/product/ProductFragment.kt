@@ -11,6 +11,7 @@ import android.widget.CompoundButton
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import io.github.horaciocome1.leiloa.R
 import io.github.horaciocome1.leiloa.data.company.Company
@@ -24,6 +25,14 @@ import kotlinx.coroutines.flow.collect
  */
 class ProductFragment : Fragment(), CompoundButton.OnCheckedChangeListener {
 
+    companion object {
+
+        private const val ANALYTICS_ITEM_ID = "share"
+        private const val ANALYTICS_ITEM_NAME = "Sharing product"
+        private const val ANALYTICS_CONTENT_TYPE = "share"
+
+    }
+
     private lateinit var binding: FragmentProductBinding
 
     private val viewModel: ProductViewModel by lazy {
@@ -34,12 +43,15 @@ class ProductFragment : Fragment(), CompoundButton.OnCheckedChangeListener {
         ParticipantsAdapter()
     }
 
+    private val analytics: FirebaseAnalytics by lazy {
+        FirebaseAnalytics.getInstance(requireContext())
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = FragmentProductBinding
             .inflate(inflater, container, false)
         return binding.root
@@ -145,8 +157,18 @@ class ProductFragment : Fragment(), CompoundButton.OnCheckedChangeListener {
             }
             val shareIntent = Intent.createChooser(sendIntent, viewModel.productId)
             startActivity(shareIntent)
+            logEvent()
             view.isEnabled = true
         }
+    }
+
+    private fun logEvent() = lifecycleScope.launchWhenStarted {
+        val bundle = Bundle().apply {
+            putString(FirebaseAnalytics.Param.ITEM_ID, ANALYTICS_ITEM_ID)
+            putString(FirebaseAnalytics.Param.ITEM_NAME, ANALYTICS_ITEM_NAME)
+            putString(FirebaseAnalytics.Param.CONTENT_TYPE, ANALYTICS_CONTENT_TYPE)
+        }
+        analytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM, bundle)
     }
 
 }

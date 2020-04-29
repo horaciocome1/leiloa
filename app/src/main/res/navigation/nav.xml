@@ -18,7 +18,7 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_open_company_domain_register"
-            app:destination="@id/destinatination_company_domain_register"
+            app:destination="@id/destination_company_domain_register"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -48,7 +48,7 @@
             app:argType="string" />
     </fragment>
     <fragment
-        android:id="@+id/destinatination_company_domain_register"
+        android:id="@+id/destination_company_domain_register"
         android:name="io.github.horaciocome1.leiloa.ui.company.register.CompanyDomainRegisterFragment"
         android:label="@string/register"
         tools:layout="@layout/fragment_company_domain_register">

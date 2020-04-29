@@ -40,7 +40,7 @@ Estes foram alguns pontos que podem levá-lo a desejar instalar o aplicativos. E
 
 ## Instalar
 
-Infelizmente, o aplicativo não está disponível na Play Store. No entanto, é possivel baixar a última versão do APK aqui [Downloads](https://github.com/horaciocome1/leiloa/releases).
+Em breve, a app estará disponivel na PlayStore. Por enquanto, pode baixar a última versão do APK [aqui](https://github.com/horaciocome1/leiloa/releases).
 
 
 ## Como utilizar?
@@ -62,6 +62,8 @@ Por favor, não se esqueça de realizar os testes apropriados.
 
 ## Autores e reconhecimento
 O projeto foi concebido e desenvolvido por [Horácio Comé](http://horaciocome1.github.io/). No entanto, este projeto faz parte de um série de projetos leves open sourse em colaboração com [Ergito Rubildo](https://realrgt.github.io/rgt_website). Este projetos visam resolver, através de software e tecnologia, problemas simples da vida diária.
+
+Quero dar um agradecimento especial ao [Dário Mungói](https://github.com/realdm). Ele é o responsável por agora ser possível publicar a app na Play Store!
 
 ## License
 [Apache License 2.0](https://github.com/horaciocome1/leiloa/blob/master/LICENSE)

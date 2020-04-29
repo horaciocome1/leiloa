@@ -20,7 +20,7 @@
     <string name="inactive">Inactive</string>
     <string name="icon_representing_an_user">Icon representing an participant</string>
     <string name="building">Icon representing an building</string>
-    <string name="product">product</string>
+    <string name="product">Product</string>
     <string name="cannot_be_blank">Cannot be blank</string>
     <string name="domain_is_not_available">Not available</string>
     <string name="domain_is_not_real">Could not find</string>
