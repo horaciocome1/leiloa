@@ -74,7 +74,6 @@ class ProductFragment : Fragment(), CompoundButton.OnCheckedChangeListener {
     }
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-        buttonView?.isEnabled = false
         lifecycleScope.launchWhenStarted {
             buttonView?.text = if (isChecked) {
                 viewModel.setActiveStatusAsync()
@@ -85,7 +84,6 @@ class ProductFragment : Fragment(), CompoundButton.OnCheckedChangeListener {
                     .await()
                 getString(R.string.inactive)
             }
-            buttonView?.isEnabled = true
         }
     }
 
@@ -148,7 +146,7 @@ class ProductFragment : Fragment(), CompoundButton.OnCheckedChangeListener {
                 message += " | ${getString(R.string.actual_price)}: " +
                         "${it.price}\n\n"
                 message += "${getString(R.string.invite_to_app)} " +
-                        getString(R.string.project_url)
+                        getString(R.string.download_url)
             }
             val sendIntent: Intent = Intent().apply {
                 action = Intent.ACTION_SEND

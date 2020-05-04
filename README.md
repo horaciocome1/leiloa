@@ -2,7 +2,7 @@
 
 ![logo](images/leiloa-small.png)
 
-leiloa é um aplicativo nativo android, destinado a gerir o processo de concorrência a leilões.
+leiloa é um aplicativo nativo android, destinado a gerir o processo de concorrência a leilões. **_[Ver na Play Store](https://play.google.com/store/apps/details?id=io.github.horaciocome1.leiloa)_**.
 
 Com ele é possível iniciar um leilão e participar em um leilão.
 
