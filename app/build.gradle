@@ -65,6 +65,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-perf'
+    implementation "com.google.firebase:firebase-config-ktx:$firebase_config_version"
     implementation "com.google.firebase:firebase-firestore-ktx:$firebase_firestore_ktx_version"
 
     // GOOGLE PLAY SERVICE
