@@ -146,7 +146,7 @@ class ProductFragment : Fragment(), CompoundButton.OnCheckedChangeListener {
                 message += " | ${getString(R.string.actual_price)}: " +
                         "${it.price}\n\n"
                 message += "${getString(R.string.invite_to_app)} " +
-                        getString(R.string.project_url)
+                        getString(R.string.download_url)
             }
             val sendIntent: Intent = Intent().apply {
                 action = Intent.ACTION_SEND

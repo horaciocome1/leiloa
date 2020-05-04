@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">leiloa</string>
     <string name="project_url" translatable="false">https://github.com/horaciocome1/leiloa/</string>
+    <string name="download_url" translatable="false">https://play.google.com/store/apps/details?id=io.github.horaciocome1.leiloa</string>
     <string name="next">Next</string>
     <string name="domain">Domain</string>
     <string name="company_domain_helper">Ex.: thecompany.co.mz</string>
