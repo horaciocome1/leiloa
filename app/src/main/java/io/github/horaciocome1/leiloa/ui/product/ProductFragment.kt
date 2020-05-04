@@ -74,7 +74,6 @@ class ProductFragment : Fragment(), CompoundButton.OnCheckedChangeListener {
     }
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-        buttonView?.isEnabled = false
         lifecycleScope.launchWhenStarted {
             buttonView?.text = if (isChecked) {
                 viewModel.setActiveStatusAsync()
@@ -85,7 +84,6 @@ class ProductFragment : Fragment(), CompoundButton.OnCheckedChangeListener {
                     .await()
                 getString(R.string.inactive)
             }
-            buttonView?.isEnabled = true
         }
     }
 
