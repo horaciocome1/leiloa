@@ -16,7 +16,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 4
-        versionName "v0.0.3a"
+        versionName "v0.0.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         dataBinding {
             enabled = true
@@ -65,6 +65,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-perf'
+    implementation "com.google.firebase:firebase-dynamic-links-ktx:$firebase_dynamic_links"
     implementation "com.google.firebase:firebase-config-ktx:$firebase_config_version"
     implementation "com.google.firebase:firebase-firestore-ktx:$firebase_firestore_ktx_version"
 
