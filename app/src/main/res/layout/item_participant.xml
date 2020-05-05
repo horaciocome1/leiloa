@@ -28,14 +28,14 @@
             app:srcCompat="@drawable/ic_undraw_male_avatar_323b" />
 
         <TextView
-            android:id="@+id/priceTextView"
+            android:id="@+id/startOfferTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
             android:fontFamily="@font/roboto_condensed_regular"
-            android:text="@{Integer.toString(participant.price) + ` MT`}"
+            android:text="@{Integer.toString(participant.offer) + ` MT`}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             android:textColor="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +56,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toBottomOf="@+id/priceTextView"
+            app:layout_constraintTop_toBottomOf="@+id/startOfferTextView"
             app:layout_constraintVertical_bias="0.0" />
 
         <View

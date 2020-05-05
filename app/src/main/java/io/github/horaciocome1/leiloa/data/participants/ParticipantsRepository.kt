@@ -29,8 +29,8 @@ class ParticipantsRepository private constructor(
     override fun setPriceAsync(
         companyDomain: String,
         productID: String,
-        price: Int
+        offer: Int
     ): Deferred<Boolean> =
-        service.setPriceAsync(companyDomain, productID, price)
+        service.setPriceAsync(companyDomain, productID, offer)
 
 }

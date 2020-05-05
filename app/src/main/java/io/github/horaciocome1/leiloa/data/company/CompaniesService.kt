@@ -1,17 +1,10 @@
 package io.github.horaciocome1.leiloa.data.company
 
 import com.google.firebase.FirebaseException
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthException
-import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import io.github.horaciocome1.leiloa.util.MyFirebaseService
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.tasks.await
 
@@ -68,7 +61,7 @@ class CompaniesService : CompaniesServiceInterface, MyFirebaseService() {
         async {
             try {
                 val uid = auth.currentUser!!.uid
-                val company = Company(id = companyDomain, ownerId = uid)
+                val company = Company(id = companyDomain, organizerId = uid)
                 companiesCollection.document(companyDomain)
                     .set(company)
                     .await()

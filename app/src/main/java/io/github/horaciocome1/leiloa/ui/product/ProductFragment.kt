@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import io.github.horaciocome1.leiloa.R
@@ -44,6 +46,14 @@ class ProductFragment : Fragment(), CompoundButton.OnCheckedChangeListener {
 
     private val analytics: FirebaseAnalytics by lazy {
         FirebaseAnalytics.getInstance(requireContext())
+    }
+
+    private val auctionIsNotActiveSnackbar: Snackbar by lazy {
+        Snackbar.make(
+            binding.root,
+            R.string.auction_not_active,
+            Snackbar.LENGTH_INDEFINITE
+        )
     }
 
     override fun onCreateView(
@@ -104,6 +114,10 @@ class ProductFragment : Fragment(), CompoundButton.OnCheckedChangeListener {
     private fun collectProduct() =
         lifecycleScope.launchWhenStarted {
             viewModel.watchProduct().collect {
+                if (it.active)
+                    auctionIsNotActiveSnackbar.dismiss()
+                else
+                    auctionIsNotActiveSnackbar.show()
                 viewModel.productActive = it.active
                 binding.viewModel = viewModel
                 binding.product = it

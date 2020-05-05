@@ -53,30 +53,30 @@ class ProductViewModel : ObservableViewModel() {
     fun watchParticipants(): Flow<List<Participant>> =
         participantsRepository.watchParticipants(companyDomain, productId)
 
-    fun increase100(view: View, productPrice: Int) {
+    fun increase100(view: View, topOffer: Int) {
         view.isEnabled = false
         viewModelScope.launch {
-            val price = productPrice + ParticipantsService.INCREASE_100
+            val price = topOffer + ParticipantsService.INCREASE_100
             participantsRepository.setPriceAsync(companyDomain, productId, price)
                 .await()
             view.isEnabled = true
         }
     }
 
-    fun increase500(view: View, productPrice: Int) {
+    fun increase500(view: View, topOffer: Int) {
         view.isEnabled = false
         viewModelScope.launch {
-            val price = productPrice + ParticipantsService.INCREASE_500
+            val price = topOffer + ParticipantsService.INCREASE_500
             participantsRepository.setPriceAsync(companyDomain, productId, price)
                 .await()
             view.isEnabled = true
         }
     }
 
-    fun increase1000(view: View, productPrice: Int) {
+    fun increase1000(view: View, topOffer: Int) {
         view.isEnabled = false
         viewModelScope.launch {
-            val price = productPrice + ParticipantsService.INCREASE_1000
+            val price = topOffer + ParticipantsService.INCREASE_1000
             participantsRepository.setPriceAsync(companyDomain, productId, price)
                 .await()
             view.isEnabled = true

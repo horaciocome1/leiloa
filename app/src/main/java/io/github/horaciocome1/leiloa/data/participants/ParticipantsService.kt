@@ -1,9 +1,6 @@
 package io.github.horaciocome1.leiloa.data.participants
 
 import com.google.firebase.FirebaseException
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthException
-import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.toObjects
 import io.github.horaciocome1.leiloa.util.MyFirebaseService
@@ -21,7 +18,7 @@ class ParticipantsService : ParticipantsServiceInterface, MyFirebaseService() {
         const val COLLECTION_NAME_PARTICIPANTS = "participants"
         const val COLLECTION_NAME_PRODUCTS = "products"
 
-        const val FIELD_NAME_PRICE = "price"
+        const val FIELD_NAME_OFFER = "offer"
 
         const val TOTAL_TOP_PARTICIPANTS = 5L
 
@@ -50,7 +47,7 @@ class ParticipantsService : ParticipantsServiceInterface, MyFirebaseService() {
             .collection(COLLECTION_NAME_PRODUCTS)
             .document(productID)
             .collection(COLLECTION_NAME_PARTICIPANTS)
-            .orderBy(FIELD_NAME_PRICE, Query.Direction.DESCENDING)
+            .orderBy(FIELD_NAME_OFFER, Query.Direction.DESCENDING)
             .limit(TOTAL_TOP_PARTICIPANTS)
             .addSnapshotListener(listener)
         awaitClose { registration.remove() }
@@ -59,14 +56,14 @@ class ParticipantsService : ParticipantsServiceInterface, MyFirebaseService() {
     override fun setPriceAsync(
         companyDomain: String,
         productID: String,
-        price: Int
+        offer: Int
     ): Deferred<Boolean> = async {
         try {
             val uid = auth.currentUser!!.uid
             val name = auth.currentUser!!.displayName!!
-            val participant = Participant(id = uid, name = name, price = price)
+            val participant = Participant(id = uid, name = name, offer = offer)
             val product = mapOf(
-                FIELD_NAME_PRICE to price
+                FIELD_NAME_OFFER to offer
             )
             val batch = firestore.batch()
             val participantRef = companiesCollection.document(companyDomain)

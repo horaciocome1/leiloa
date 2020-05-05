@@ -26,7 +26,7 @@ class ParticipantsDiffUtilCallback(
         val oldItem = oldList[oldItemPosition]
         val newItem = newList[newItemPosition]
         return oldItem.name == newItem.name &&
-                oldItem.price == newItem.price
+                oldItem.offer == newItem.offer
     }
 
     @Nullable

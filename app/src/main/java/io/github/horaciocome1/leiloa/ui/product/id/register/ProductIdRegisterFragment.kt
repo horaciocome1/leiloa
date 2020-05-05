@@ -9,12 +9,12 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.github.horaciocome1.leiloa.R
 import io.github.horaciocome1.leiloa.databinding.FragmentProductIdRegisterBinding
 import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 /**
  * Fragment responsible for handling inputs for product
@@ -38,6 +38,14 @@ class ProductIdRegisterFragment : Fragment() {
 
     private val analytics: FirebaseAnalytics by lazy {
         FirebaseAnalytics.getInstance(requireContext())
+    }
+
+    private val productIdRegisteredSnackbar: Snackbar by lazy {
+        Snackbar.make(
+            binding.root,
+            R.string.product_id_registered,
+            Snackbar.LENGTH_LONG
+        )
     }
 
     override fun onCreateView(
@@ -133,8 +141,10 @@ class ProductIdRegisterFragment : Fragment() {
             if (!isSuccessful)
                 binding.productIdTextInputLayout.error =
                     getString(R.string.product_id_is_not_available)
-            else
+            else {
+                productIdRegisteredSnackbar.show()
                 logEvent()
+            }
             binding.progressBar.visibility = View.GONE
             view.isEnabled = true
         }

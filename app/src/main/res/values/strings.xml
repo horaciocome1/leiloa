@@ -36,4 +36,7 @@
     <string name="invite"> is inviting you to this private auction.</string>
     <string name="company_domain">Company Domain</string>
     <string name="sign_in">Sign In</string>
+    <string name="auction_not_active">Auction is not active, consult organizer.</string>
+    <string name="company_domain_registered">The domain has been registered! Now, register a product.</string>
+    <string name="product_id_registered">The product ID has been registed! Share it!</string>
 </resources>

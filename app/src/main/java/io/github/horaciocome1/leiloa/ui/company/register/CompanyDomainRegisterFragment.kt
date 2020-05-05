@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.github.horaciocome1.leiloa.R
 import io.github.horaciocome1.leiloa.databinding.FragmentCompanyDomainRegisterBinding
@@ -35,6 +36,14 @@ class CompanyDomainRegisterFragment : Fragment() {
 
     private val analytics: FirebaseAnalytics by lazy {
         FirebaseAnalytics.getInstance(requireContext())
+    }
+
+    private val domainRegisteredSnackbar: Snackbar by lazy {
+        Snackbar.make(
+            binding.root,
+            R.string.company_domain_registered,
+            Snackbar.LENGTH_LONG
+        )
     }
 
     override fun onCreateView(
@@ -78,8 +87,10 @@ class CompanyDomainRegisterFragment : Fragment() {
             if (!isSuccessful)
                 binding.companyDomainTextInputLayout.error =
                     getString(R.string.domain_is_not_available)
-            else
+            else {
+                domainRegisteredSnackbar.show()
                 logEvent()
+            }
             binding.progressBar.visibility = View.GONE
             view.isEnabled = true
         }

@@ -22,7 +22,7 @@ interface ParticipantsServiceInterface {
     fun setPriceAsync(
         companyDomain: String,
         productID: String,
-        price: Int
+        offer: Int
     ): Deferred<Boolean>
 
 }

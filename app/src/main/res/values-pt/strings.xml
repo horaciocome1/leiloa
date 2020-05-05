@@ -31,4 +31,7 @@
     <string name="invite">está a convidá-lo para um leilão privado</string>
     <string name="company_domain">Domínio</string>
     <string name="sign_in">Iniciar sessão</string>
+    <string name="auction_not_active">O leilão não está ativo, consulte o organizador.</string>
+    <string name="company_domain_registered">O domínio foi registado! Agora, registe um produto.</string>
+    <string name="product_id_registered">O ID do produto foi registado, partilhe com os participantes!</string>
 </resources>
