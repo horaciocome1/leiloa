@@ -8,9 +8,9 @@
     <string name="register">Registrar</string>
     <string name="terms_and_conditions_helper">Regras, estado e validade</string>
     <string name="terms_and_conditions">Termos e condições</string>
-    <string name="start_price">Preço inicial</string>
-    <string name="actual_price">Preço atual</string>
-    <string name="start_active">Iniciar ativo</string>
+    <string name="start_offer">Oferta inicial</string>
+    <string name="actual_price">Oferta actual</string>
+    <string name="top_offer">Iniciar ativo</string>
     <string name="welcome">Bem-vindo,</string>
     <string name="active">Ativo</string>
     <string name="inactive">Inativo</string>
@@ -20,7 +20,7 @@
     <string name="cannot_be_blank">Não pode estar vazio</string>
     <string name="domain_is_not_available">Não está disponível</string>
     <string name="domain_is_not_real">Não foi possível encontrar</string>
-    <string name="product_is_not_real">Não foi possível encontrar</string>
+    <string name="product_id_is_not_real">Não foi possível encontrar</string>
     <string name="product_id_is_not_available">Não está disponível</string>
     <string name="add_content">Icon representando adição de conteúdo</string>
     <string name="sign_in_error">Não foi possível iniciar sessão. Veja a sua ligação de dados</string>

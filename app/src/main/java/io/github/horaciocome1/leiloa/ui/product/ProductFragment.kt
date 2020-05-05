@@ -2,7 +2,6 @@ package io.github.horaciocome1.leiloa.ui.product
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -141,10 +140,10 @@ class ProductFragment : Fragment(), CompoundButton.OnCheckedChangeListener {
                         "${it.id}\n\n"
                 message += "${getString(R.string.terms_and_conditions)}: " +
                         "${it.termsAndConditions}\n\n"
-                message += "${getString(R.string.start_price)}: " +
-                        "${it.startPrice}"
+                message += "${getString(R.string.start_offer)}: " +
+                        "${it.startOffer}"
                 message += " | ${getString(R.string.actual_price)}: " +
-                        "${it.price}\n\n"
+                        "${it.topOffer}\n\n"
                 message += "${getString(R.string.invite_to_app)} " +
                         getString(R.string.download_url)
             }

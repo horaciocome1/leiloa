@@ -5,15 +5,21 @@ import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import io.github.horaciocome1.leiloa.data.company.CompaniesRepository
+import io.github.horaciocome1.leiloa.data.config.RemoteConfigRepository
 import io.github.horaciocome1.leiloa.util.ObservableViewModel
 import io.github.horaciocome1.leiloa.util.navigate
 import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 
 class CompanyDomainRegisterViewModel : ObservableViewModel() {
 
-    private val repository: CompaniesRepository by lazy {
+    private val companiesRepository: CompaniesRepository by lazy {
         CompaniesRepository.getInstance()
+    }
+
+    private val remoteConfigRepository: RemoteConfigRepository by lazy {
+        RemoteConfigRepository.getInstance()
     }
 
     @Bindable
@@ -26,15 +32,18 @@ class CompanyDomainRegisterViewModel : ObservableViewModel() {
      */
     fun registerDomainAsync(view: View): Deferred<Boolean> =
         viewModelScope.async {
-            val isAvailable = repository.isDomainAvailableAsync(companyDomain.value!!)
+            val isAvailable = companiesRepository.isDomainAvailableAsync(companyDomain.value!!)
                 .await()
             if (!isAvailable)
                 return@async false
-            val domain = repository.registerDomainAsync(companyDomain.value!!)
+            val domain = companiesRepository.registerDomainAsync(companyDomain.value!!)
                 .await()
             navigateToProductID(view, domain)
             return@async true
         }
+
+    fun retrieveCompanyDomainMaxLengthAsync() =
+        remoteConfigRepository.retrieveCompanyDomainMaxLengthAsync()
 
     private fun navigateToProductID(view: View, domain: String) =
         CompanyDomainRegisterFragmentDirections

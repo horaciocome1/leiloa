@@ -1,37 +1,101 @@
 package io.github.horaciocome1.leiloa.data.config
 
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigException
+import kotlinx.coroutines.*
+import kotlinx.coroutines.tasks.await
+import kotlin.coroutines.CoroutineContext
 
-class RemoteConfigService : RemoteConfigInterface {
+class RemoteConfigService(
+    override val coroutineContext: CoroutineContext = Dispatchers.IO
+) : RemoteConfigInterface, CoroutineScope {
 
     private val remoteConfig: FirebaseRemoteConfig by lazy {
-        FirebaseRemoteConfig.getInstance()
+        FirebaseRemoteConfig.getInstance().apply {
+            setDefaultsAsync(RemoteConfigDefaults.DEFAULTS)
+        }
+
     }
 
-    private val coroutineScope: CoroutineScope by lazy {
-        CoroutineScope(Dispatchers.IO)
+    val crashlytics: FirebaseCrashlytics by lazy {
+        val crashlytics = FirebaseCrashlytics.getInstance()
+        try {
+            val auth = FirebaseAuth.getInstance()
+            crashlytics.setUserId(auth.currentUser!!.uid)
+        } catch (exception: FirebaseAuthException) {
+            crashlytics.recordException(exception)
+        }
+        return@lazy crashlytics
     }
 
-    override fun loadCompanyDomainLengthAsync(): Flow<Long> =
-        coroutineScope
+    override fun retrieveCompanyDomainMaxLengthAsync(): Deferred<Long> =
+        async {
+            try {
+                remoteConfig.fetchAndActivate()
+                    .await()
+                return@async remoteConfig.getLong(
+                    RemoteConfigDefaults.MAX_LENGTH_COMPANY_DOMAIN
+                )
+            } catch (exception: FirebaseRemoteConfigException) {
+                crashlytics.recordException(exception)
+                return@async 0L
+            }
+        }
 
-    override fun loadProductIdAsync(): Flow<Long> {
-        TODO("Not yet implemented")
-    }
+    override fun retrieveProductIdMaxLengthAsync(): Deferred<Long> =
+        async {
+            try {
+                remoteConfig.fetchAndActivate()
+                    .await()
+                return@async remoteConfig.getLong(
+                    RemoteConfigDefaults.MAX_LENGTH_PRODUCT_ID
+                )
+            } catch (exception: FirebaseRemoteConfigException) {
+                crashlytics.recordException(exception)
+                return@async 0L
+            }
+        }
 
-    override fun loadTermsAndConditionsLengthAsync(): Flow<Long> {
-        TODO("Not yet implemented")
-    }
+    override fun retrieveTermsAndConditionsMaxLengthAsync(): Deferred<Long> =
+        async {
+            try {
+                remoteConfig.fetchAndActivate()
+                    .await()
+                return@async remoteConfig.getLong(
+                    RemoteConfigDefaults.MAX_LENGTH_TERMS_AND_CONDITIONS
+                )
+            } catch (exception: FirebaseRemoteConfigException) {
+                crashlytics.recordException(exception)
+                return@async 0L
+            }
+        }
 
-    override fun loadPriceLengthAsync(): Flow<Long> {
-        TODO("Not yet implemented")
-    }
+    override fun retrieveStartPriceMaxLengthAsync(): Deferred<Long> =
+        async {
+            try {
+                remoteConfig.fetchAndActivate()
+                    .await()
+                return@async remoteConfig.getLong(RemoteConfigDefaults.MAX_LENGTH_START_PRICE)
+            } catch (exception: FirebaseRemoteConfigException) {
+                crashlytics.recordException(exception)
+                return@async 0L
+            }
+        }
 
-    override fun loadStartActiveAsync(): Flow<Boolean> {
-        TODO("Not yet implemented")
-    }
-
+    override fun retrieveStartActiveAsync(): Deferred<Boolean> =
+        async {
+            try {
+                remoteConfig.fetchAndActivate()
+                    .await()
+                return@async remoteConfig.getBoolean(
+                    RemoteConfigDefaults.START_ACTIVE_BY_DEFAULT
+                )
+            } catch (exception: FirebaseRemoteConfigException) {
+                crashlytics.recordException(exception)
+                return@async false
+            }
+        }
 }

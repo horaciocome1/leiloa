@@ -1,5 +1,7 @@
 package io.github.horaciocome1.leiloa.data.config
 
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 
 interface RemoteConfigInterface {
@@ -7,26 +9,26 @@ interface RemoteConfigInterface {
     /**
      * tells the text input length to the company domain field
      */
-    fun loadCompanyDomainLengthAsync(): Flow<Long>
+    fun retrieveCompanyDomainMaxLengthAsync(): Deferred<Long>
 
     /**
      * tells the text input length to the product id field
      */
-    fun loadProductIdAsync(): Flow<Long>
+    fun retrieveProductIdMaxLengthAsync(): Deferred<Long>
 
     /**
      * tells the text input length to the terms and conditions field
      */
-    fun loadTermsAndConditionsLengthAsync(): Flow<Long>
+    fun retrieveTermsAndConditionsMaxLengthAsync(): Deferred<Long>
 
     /**
      * tells the text input length to the price field
      */
-    fun loadPriceLengthAsync(): Flow<Long>
+    fun retrieveStartPriceMaxLengthAsync(): Deferred<Long>
 
     /**
      * tells if the auction should start activated by default
      */
-    fun loadStartActiveAsync(): Flow<Boolean>
+    fun retrieveStartActiveAsync(): Deferred<Boolean>
 
 }

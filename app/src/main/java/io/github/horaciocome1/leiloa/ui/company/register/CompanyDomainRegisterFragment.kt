@@ -1,6 +1,7 @@
 package io.github.horaciocome1.leiloa.ui.company.register
 
 import android.os.Bundle
+import android.text.InputFilter
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.github.horaciocome1.leiloa.R
 import io.github.horaciocome1.leiloa.databinding.FragmentCompanyDomainRegisterBinding
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 /**
  * This fragment is responsible for handling the registering of new company domains
@@ -54,6 +56,7 @@ class CompanyDomainRegisterFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         viewModel.companyDomain.observe(this, Observer { alertIfEmpty(it) })
+        updateMaxTextLength()
     }
 
     private fun alertIfEmpty(companyDomain: String) {
@@ -80,6 +83,16 @@ class CompanyDomainRegisterFragment : Fragment() {
             binding.progressBar.visibility = View.GONE
             view.isEnabled = true
         }
+    }
+
+    private fun updateMaxTextLength() = lifecycleScope.launchWhenStarted {
+        val maxLength = viewModel.retrieveCompanyDomainMaxLengthAsync()
+            .await()
+            .toInt()
+        binding.companyDomainTextInputLayout.counterMaxLength = maxLength
+        binding.companyDomainTextInputLayout.editText?.filters = arrayOf(
+            InputFilter.LengthFilter(maxLength)
+        )
     }
 
     private fun logEvent() = lifecycleScope.launchWhenStarted {

@@ -6,10 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
 import io.github.horaciocome1.leiloa.data.company.CompaniesRepository
+import io.github.horaciocome1.leiloa.data.config.RemoteConfigRepository
 import io.github.horaciocome1.leiloa.data.product.ProductsRepository
 import io.github.horaciocome1.leiloa.util.ObservableViewModel
 import io.github.horaciocome1.leiloa.util.navigate
 import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 
 class ProductIdViewModel : ObservableViewModel() {
@@ -22,13 +24,20 @@ class ProductIdViewModel : ObservableViewModel() {
         ProductsRepository.getInstance()
     }
 
+    private val remoteConfigRepository: RemoteConfigRepository by lazy {
+        RemoteConfigRepository.getInstance()
+    }
+
     var companyDomain: String = ""
 
     @Bindable
     val productId: MutableLiveData<String> = MutableLiveData<String>()
 
-    fun doDomainBelongToMeAsync() = companiesRepository.doDomainBelongToMeAsync(companyDomain)
+    fun doDomainBelongToMeAsync() =
+        companiesRepository.doDomainBelongToMeAsync(companyDomain)
 
+    fun retrieveProductIdMaxLengthAsync() =
+        remoteConfigRepository.retrieveProductIdMaxLengthAsync()
 
     fun navigateToProductAsync(view: View): Deferred<Boolean> =
         viewModelScope.async {

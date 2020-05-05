@@ -1,6 +1,7 @@
 package io.github.horaciocome1.leiloa.ui.product.id.register
 
 import android.os.Bundle
+import android.text.InputFilter
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,8 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.github.horaciocome1.leiloa.R
 import io.github.horaciocome1.leiloa.databinding.FragmentProductIdRegisterBinding
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 /**
  * Fragment responsible for handling inputs for product
@@ -57,6 +60,7 @@ class ProductIdRegisterFragment : Fragment() {
         super.onStart()
         setCompanyDomainToViewModel()
         initTextFields()
+        updateActiveSwitchCheckedState()
     }
 
     private fun setCompanyDomainToViewModel() = arguments?.let {
@@ -65,16 +69,40 @@ class ProductIdRegisterFragment : Fragment() {
     }
 
     private fun initTextFields() {
+        updateMaxTextLength(
+            binding.productIdTextInputLayout,
+            viewModel.retrieveProductIdMaxLengthAsync()
+        )
         viewModel.productId.observe(this, Observer {
             alertIfEmpty(binding.productIdTextInputLayout, it)
         })
+        updateMaxTextLength(
+            binding.termsAndConditionsTextInputLayout,
+            viewModel.retrieveTermsAndConditionsMaxLengthAsync()
+        )
         viewModel.termsAndConditions.observe(this, Observer {
-            alertIfEmpty(binding.productIdTextInputLayout, it)
+            alertIfEmpty(binding.termsAndConditionsTextInputLayout, it)
         })
-        viewModel.startPrice.observe(this, Observer {
-            alertIfEmpty(binding.productIdTextInputLayout, it)
+        updateMaxTextLength(
+            binding.startPriceTextInputLayout,
+            viewModel.retrieveStartPriceMaxLengthAsync()
+        )
+        viewModel.startOffer.observe(this, Observer {
+            alertIfEmpty(binding.startPriceTextInputLayout, it)
         })
     }
+
+    private fun updateMaxTextLength(
+        textInputLayout: TextInputLayout,
+        maxLengthDeferred: Deferred<Long>
+    ) = lifecycleScope.launchWhenStarted {
+            val maxLength = maxLengthDeferred.await()
+                .toInt()
+            textInputLayout.counterMaxLength = maxLength
+            textInputLayout.editText?.filters = arrayOf(
+                InputFilter.LengthFilter(maxLength)
+            )
+        }
 
     private fun alertIfEmpty(textInputLayout: TextInputLayout, companyDomain: String) {
         textInputLayout.error = if (companyDomain.isNotBlank())
@@ -82,6 +110,13 @@ class ProductIdRegisterFragment : Fragment() {
         else
             getString(R.string.cannot_be_blank)
     }
+
+    private fun updateActiveSwitchCheckedState() =
+        lifecycleScope.launchWhenStarted {
+            val isActive = viewModel.retrieveStartActiveAsync()
+                .await()
+            binding.startEnabledSwitch.isChecked = isActive
+        }
 
     private fun register(view: View) {
         if (

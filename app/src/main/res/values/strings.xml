@@ -10,9 +10,9 @@
     <string name="register">Register</string>
     <string name="terms_and_conditions_helper">Describe the rules or product state</string>
     <string name="terms_and_conditions">Terms and conditions</string>
-    <string name="start_price">Start price (MT)</string>
-    <string name="actual_price">Actual rice (MT)</string>
-    <string name="start_active">Start active</string>
+    <string name="start_offer">Start offer (MT)</string>
+    <string name="actual_price">Top offer (MT)</string>
+    <string name="top_offer">Start active</string>
     <string name="welcome">Welcome,</string>
     <string name="_1000_mt" translatable="false">1000 MT</string>
     <string name="_500_mt" translatable="false">500 MT</string>
@@ -25,7 +25,7 @@
     <string name="cannot_be_blank">Cannot be blank</string>
     <string name="domain_is_not_available">Not available</string>
     <string name="domain_is_not_real">Could not find</string>
-    <string name="product_is_not_real">Could not find</string>
+    <string name="product_id_is_not_real">Could not find</string>
     <string name="product_id_is_not_available">Not available</string>
     <string name="add_content">Icon representing add content</string>
     <string name="sign_in_error">Could not sign you in. Check your network.</string>
