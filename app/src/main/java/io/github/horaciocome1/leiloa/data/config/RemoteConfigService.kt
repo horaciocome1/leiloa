@@ -4,7 +4,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigException
+import io.github.horaciocome1.leiloa.util.myCrashlytics
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
 import kotlin.coroutines.CoroutineContext
@@ -21,14 +23,7 @@ class RemoteConfigService(
     }
 
     val crashlytics: FirebaseCrashlytics by lazy {
-        val crashlytics = FirebaseCrashlytics.getInstance()
-        try {
-            val auth = FirebaseAuth.getInstance()
-            crashlytics.setUserId(auth.currentUser!!.uid)
-        } catch (exception: FirebaseAuthException) {
-            crashlytics.recordException(exception)
-        }
-        return@lazy crashlytics
+        Firebase.myCrashlytics
     }
 
     override fun retrieveCompanyDomainMaxLengthAsync(): Deferred<Long> =

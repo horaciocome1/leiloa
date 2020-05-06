@@ -92,11 +92,11 @@ class ProductIdRegisterFragment : Fragment() {
             alertIfEmpty(binding.termsAndConditionsTextInputLayout, it)
         })
         updateMaxTextLength(
-            binding.startPriceTextInputLayout,
+            binding.startOfferTextInputLayout,
             viewModel.retrieveStartPriceMaxLengthAsync()
         )
         viewModel.startOffer.observe(this, Observer {
-            alertIfEmpty(binding.startPriceTextInputLayout, it)
+            alertIfEmpty(binding.startOfferTextInputLayout, it)
         })
     }
 
@@ -130,7 +130,7 @@ class ProductIdRegisterFragment : Fragment() {
         if (
             binding.productIdTextInputLayout.editText?.text.isNullOrBlank() ||
             binding.termsAndConditionsTextInputLayout.editText?.text.isNullOrBlank() ||
-            binding.startPriceTextInputLayout.editText?.text.isNullOrBlank()
+            binding.startOfferTextInputLayout.editText?.text.isNullOrBlank()
         ) return
         view.isEnabled = false
         binding.progressBar.visibility = View.VISIBLE

@@ -83,6 +83,8 @@ class ProductIdFragment : Fragment() {
     }
 
     private fun navigate(view: View) {
+        if (viewModel.productId.value == null)
+            return
         view.isEnabled = false
         binding.progressBar.visibility = View.VISIBLE
         lifecycleScope.launchWhenStarted {
