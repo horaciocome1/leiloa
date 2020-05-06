@@ -1,6 +1,7 @@
 package io.github.horaciocome1.leiloa.ui.product.id.register
 
 import android.os.Bundle
+import android.text.InputFilter
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,10 +9,12 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.github.horaciocome1.leiloa.R
 import io.github.horaciocome1.leiloa.databinding.FragmentProductIdRegisterBinding
+import kotlinx.coroutines.Deferred
 
 /**
  * Fragment responsible for handling inputs for product
@@ -37,6 +40,14 @@ class ProductIdRegisterFragment : Fragment() {
         FirebaseAnalytics.getInstance(requireContext())
     }
 
+    private val productIdRegisteredSnackbar: Snackbar by lazy {
+        Snackbar.make(
+            binding.root,
+            R.string.product_id_registered,
+            Snackbar.LENGTH_LONG
+        )
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -57,6 +68,7 @@ class ProductIdRegisterFragment : Fragment() {
         super.onStart()
         setCompanyDomainToViewModel()
         initTextFields()
+        updateActiveSwitchCheckedState()
     }
 
     private fun setCompanyDomainToViewModel() = arguments?.let {
@@ -65,16 +77,40 @@ class ProductIdRegisterFragment : Fragment() {
     }
 
     private fun initTextFields() {
+        updateMaxTextLength(
+            binding.productIdTextInputLayout,
+            viewModel.retrieveProductIdMaxLengthAsync()
+        )
         viewModel.productId.observe(this, Observer {
             alertIfEmpty(binding.productIdTextInputLayout, it)
         })
+        updateMaxTextLength(
+            binding.termsAndConditionsTextInputLayout,
+            viewModel.retrieveTermsAndConditionsMaxLengthAsync()
+        )
         viewModel.termsAndConditions.observe(this, Observer {
-            alertIfEmpty(binding.productIdTextInputLayout, it)
+            alertIfEmpty(binding.termsAndConditionsTextInputLayout, it)
         })
-        viewModel.startPrice.observe(this, Observer {
-            alertIfEmpty(binding.productIdTextInputLayout, it)
+        updateMaxTextLength(
+            binding.startOfferTextInputLayout,
+            viewModel.retrieveStartPriceMaxLengthAsync()
+        )
+        viewModel.startOffer.observe(this, Observer {
+            alertIfEmpty(binding.startOfferTextInputLayout, it)
         })
     }
+
+    private fun updateMaxTextLength(
+        textInputLayout: TextInputLayout,
+        maxLengthDeferred: Deferred<Long>
+    ) = lifecycleScope.launchWhenStarted {
+            val maxLength = maxLengthDeferred.await()
+                .toInt()
+            textInputLayout.counterMaxLength = maxLength
+            textInputLayout.editText?.filters = arrayOf(
+                InputFilter.LengthFilter(maxLength)
+            )
+        }
 
     private fun alertIfEmpty(textInputLayout: TextInputLayout, companyDomain: String) {
         textInputLayout.error = if (companyDomain.isNotBlank())
@@ -83,11 +119,18 @@ class ProductIdRegisterFragment : Fragment() {
             getString(R.string.cannot_be_blank)
     }
 
+    private fun updateActiveSwitchCheckedState() =
+        lifecycleScope.launchWhenStarted {
+            val isActive = viewModel.retrieveStartActiveAsync()
+                .await()
+            binding.startEnabledSwitch.isChecked = isActive
+        }
+
     private fun register(view: View) {
         if (
             binding.productIdTextInputLayout.editText?.text.isNullOrBlank() ||
             binding.termsAndConditionsTextInputLayout.editText?.text.isNullOrBlank() ||
-            binding.startPriceTextInputLayout.editText?.text.isNullOrBlank()
+            binding.startOfferTextInputLayout.editText?.text.isNullOrBlank()
         ) return
         view.isEnabled = false
         binding.progressBar.visibility = View.VISIBLE
@@ -98,8 +141,10 @@ class ProductIdRegisterFragment : Fragment() {
             if (!isSuccessful)
                 binding.productIdTextInputLayout.error =
                     getString(R.string.product_id_is_not_available)
-            else
+            else {
+                productIdRegisteredSnackbar.show()
                 logEvent()
+            }
             binding.progressBar.visibility = View.GONE
             view.isEnabled = true
         }

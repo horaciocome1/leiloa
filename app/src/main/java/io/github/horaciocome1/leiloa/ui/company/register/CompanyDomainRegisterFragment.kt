@@ -1,6 +1,7 @@
 package io.github.horaciocome1.leiloa.ui.company.register
 
 import android.os.Bundle
+import android.text.InputFilter
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,9 +9,11 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
 import io.github.horaciocome1.leiloa.R
 import io.github.horaciocome1.leiloa.databinding.FragmentCompanyDomainRegisterBinding
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 /**
  * This fragment is responsible for handling the registering of new company domains
@@ -35,6 +38,14 @@ class CompanyDomainRegisterFragment : Fragment() {
         FirebaseAnalytics.getInstance(requireContext())
     }
 
+    private val domainRegisteredSnackbar: Snackbar by lazy {
+        Snackbar.make(
+            binding.root,
+            R.string.company_domain_registered,
+            Snackbar.LENGTH_LONG
+        )
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -54,6 +65,7 @@ class CompanyDomainRegisterFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         viewModel.companyDomain.observe(this, Observer { alertIfEmpty(it) })
+        updateMaxTextLength()
     }
 
     private fun alertIfEmpty(companyDomain: String) {
@@ -75,11 +87,23 @@ class CompanyDomainRegisterFragment : Fragment() {
             if (!isSuccessful)
                 binding.companyDomainTextInputLayout.error =
                     getString(R.string.domain_is_not_available)
-            else
+            else {
+                domainRegisteredSnackbar.show()
                 logEvent()
+            }
             binding.progressBar.visibility = View.GONE
             view.isEnabled = true
         }
+    }
+
+    private fun updateMaxTextLength() = lifecycleScope.launchWhenStarted {
+        val maxLength = viewModel.retrieveCompanyDomainMaxLengthAsync()
+            .await()
+            .toInt()
+        binding.companyDomainTextInputLayout.counterMaxLength = maxLength
+        binding.companyDomainTextInputLayout.editText?.filters = arrayOf(
+            InputFilter.LengthFilter(maxLength)
+        )
     }
 
     private fun logEvent() = lifecycleScope.launchWhenStarted {

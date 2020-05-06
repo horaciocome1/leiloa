@@ -13,8 +13,12 @@ import androidx.navigation.Navigation
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.dynamiclinks.ktx.dynamicLinks
+import com.google.firebase.ktx.Firebase
 import io.github.horaciocome1.leiloa.R
 import io.github.horaciocome1.leiloa.databinding.ActivityMainBinding
+import io.github.horaciocome1.leiloa.util.myCrashlytics
+import kotlinx.coroutines.tasks.await
 
 class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedListener,
     FirebaseAuth.AuthStateListener {
@@ -49,11 +53,20 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         FirebaseAnalytics.getInstance(this)
     }
 
+    /**
+     * holds data taken from dynamic link
+     * if it is not null and auth state changed to logged
+     *  => then user is coming from a dynamic link
+     *  => and should be redirected after logging in
+     */
+    private var productBundle: Bundle? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.MyTheme)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        handleDynamicLink()
         initUI()
     }
 
@@ -68,12 +81,17 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     }
 
     override fun onAuthStateChanged(auth: FirebaseAuth) {
-        if (auth.currentUser == null)
-            navController.navigate(R.id.destination_sign_in)
-        else if (navController.currentDestination?.id == R.id.destination_sign_in)
-            navController.navigateUp()
-        else
-            setAnalyticsUser(auth.currentUser!!)
+        when {
+            auth.currentUser == null ->
+                navController.navigate(R.id.destination_sign_in)
+            productBundle != null -> {
+                navController.navigate(R.id.destination_product, productBundle!!)
+                productBundle = null
+            }
+            navController.currentDestination?.id == R.id.destination_sign_in ->
+                navController.navigateUp()
+            else -> setAnalyticsUser(auth.currentUser!!)
+        }
     }
 
     override fun onDestinationChanged(
@@ -141,6 +159,24 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
             contentType = ANALYTICS_ABOUT_CONTENT_TYPE
         )
     }
+
+    private fun handleDynamicLink() =
+        lifecycleScope.launchWhenStarted {
+            val link = Firebase.dynamicLinks.getDynamicLink(intent)
+                .await()
+                ?.link
+                ?: return@launchWhenStarted
+            val companyDomain = link.getQueryParameter("d")
+            val productId = link.getQueryParameter("p")
+            productBundle = Bundle().apply {
+                putString("company_domain", companyDomain)
+                putString("product_id", productId)
+            }
+            if (auth.currentUser != null) {
+                navController.navigate(R.id.destination_product, productBundle!!)
+                productBundle = null
+            }
+        }
 
     private fun logEvent(
         itemId: String,

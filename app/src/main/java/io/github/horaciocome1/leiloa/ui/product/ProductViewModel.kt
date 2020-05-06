@@ -1,7 +1,11 @@
 package io.github.horaciocome1.leiloa.ui.product
 
+import android.net.Uri
 import android.view.View
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.dynamiclinks.ktx.*
+import com.google.firebase.ktx.Firebase
+import io.github.horaciocome1.leiloa.BuildConfig
 import io.github.horaciocome1.leiloa.data.company.CompaniesRepository
 import io.github.horaciocome1.leiloa.data.participants.Participant
 import io.github.horaciocome1.leiloa.data.participants.ParticipantsRepository
@@ -9,11 +13,13 @@ import io.github.horaciocome1.leiloa.data.participants.ParticipantsService
 import io.github.horaciocome1.leiloa.data.product.Product
 import io.github.horaciocome1.leiloa.data.product.ProductsRepository
 import io.github.horaciocome1.leiloa.util.ObservableViewModel
+import io.github.horaciocome1.leiloa.util.myCrashlytics
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class ProductViewModel : ObservableViewModel() {
 
@@ -53,31 +59,53 @@ class ProductViewModel : ObservableViewModel() {
     fun watchParticipants(): Flow<List<Participant>> =
         participantsRepository.watchParticipants(companyDomain, productId)
 
-    fun increase100(view: View, productPrice: Int) {
+    fun retrieveDynamicLinkAsync(fallbackUrl: Uri) = viewModelScope.async {
+        try {
+            val shortLink = Firebase.dynamicLinks.shortLinkAsync {
+                val url = "https://leiloa.web.app/?d=$companyDomain&p=$productId"
+                link = Uri.parse(url)
+                domainUriPrefix = "https://leiloa.page.link"
+                androidParameters(BuildConfig.APPLICATION_ID) {
+                    this.fallbackUrl = fallbackUrl
+                    minimumVersion = 21
+                }
+                socialMetaTagParameters {
+                    title = companyDomain
+                    description = productId
+                }
+            }.await()
+            return@async shortLink.previewLink
+        } catch (exception: Exception) {
+            Firebase.myCrashlytics.recordException(exception)
+            return@async null
+        }
+    }
+
+    fun increase100(view: View, topOffer: Int) {
         view.isEnabled = false
+        val offer = topOffer + ParticipantsService.INCREASE_100
         viewModelScope.launch {
-            val price = productPrice + ParticipantsService.INCREASE_100
-            participantsRepository.setPriceAsync(companyDomain, productId, price)
+            participantsRepository.setPriceAsync(companyDomain, productId, offer)
                 .await()
             view.isEnabled = true
         }
     }
 
-    fun increase500(view: View, productPrice: Int) {
+    fun increase500(view: View, topOffer: Int) {
         view.isEnabled = false
+        val offer = topOffer + ParticipantsService.INCREASE_500
         viewModelScope.launch {
-            val price = productPrice + ParticipantsService.INCREASE_500
-            participantsRepository.setPriceAsync(companyDomain, productId, price)
+            participantsRepository.setPriceAsync(companyDomain, productId, offer)
                 .await()
             view.isEnabled = true
         }
     }
 
-    fun increase1000(view: View, productPrice: Int) {
+    fun increase1000(view: View, topOffer: Int) {
         view.isEnabled = false
+        val offer = topOffer + ParticipantsService.INCREASE_1000
         viewModelScope.launch {
-            val price = productPrice + ParticipantsService.INCREASE_1000
-            participantsRepository.setPriceAsync(companyDomain, productId, price)
+            participantsRepository.setPriceAsync(companyDomain, productId, offer)
                 .await()
             view.isEnabled = true
         }

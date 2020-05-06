@@ -65,7 +65,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/startPriceTextInputLayout"
+            android:id="@+id/startOfferTextInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -80,12 +80,12 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/start_price"
+                android:hint="@string/start_offer"
                 android:inputType="number"
                 android:maxLength="5"
                 android:singleLine="true"
                 android:textAlignment="textEnd"
-                android:text="@={viewModel.startPrice}"  />
+                android:text="@={viewModel.startOffer}"  />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -99,12 +99,12 @@
             android:layout_marginBottom="32dp"
             android:checked="true"
             android:fontFamily="@font/roboto"
-            android:text="@string/start_active"
+            android:text="@string/top_offer"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             app:layout_constraintBottom_toTopOf="@+id/registerButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/startPriceTextInputLayout"
+            app:layout_constraintTop_toBottomOf="@+id/startOfferTextInputLayout"
             app:layout_constraintVertical_bias="0.0" />
 
         <com.google.android.material.button.MaterialButton

@@ -1,6 +1,7 @@
 package io.github.horaciocome1.leiloa.ui.product.id
 
 import android.os.Bundle
+import android.text.InputFilter
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import io.github.horaciocome1.leiloa.R
 import io.github.horaciocome1.leiloa.databinding.FragmentProductIdBinding
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 /**
  * fragment responsible for handling the informing productId step
@@ -46,6 +48,7 @@ class ProductIdFragment : Fragment() {
         setCompanyDomainToViewModel()
         setRegisterButtonVisibility()
         viewModel.productId.observe(this, Observer { alertIfEmpty(it) })
+        updateMaxTextLength()
     }
 
     private fun setCompanyDomainToViewModel() = arguments?.let {
@@ -69,7 +72,19 @@ class ProductIdFragment : Fragment() {
                 getString(R.string.cannot_be_blank)
     }
 
+    private fun updateMaxTextLength() = lifecycleScope.launchWhenStarted {
+        val maxLength = viewModel.retrieveProductIdMaxLengthAsync()
+            .await()
+            .toInt()
+        binding.productIdTextInputLayout.counterMaxLength = maxLength
+        binding.productIdTextInputLayout.editText?.filters = arrayOf(
+            InputFilter.LengthFilter(maxLength)
+        )
+    }
+
     private fun navigate(view: View) {
+        if (viewModel.productId.value == null)
+            return
         view.isEnabled = false
         binding.progressBar.visibility = View.VISIBLE
         lifecycleScope.launchWhenStarted {
@@ -77,7 +92,7 @@ class ProductIdFragment : Fragment() {
                 .await()
             if (!isSuccessful)
                 binding.productIdTextInputLayout.error =
-                    getString(R.string.product_is_not_real)
+                    getString(R.string.product_id_is_not_real)
             binding.progressBar.visibility = View.GONE
             view.isEnabled = true
         }
