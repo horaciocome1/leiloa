@@ -4,44 +4,30 @@ import android.view.View
 import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.findNavController
 import io.github.horaciocome1.leiloa.data.company.CompaniesRepository
 import io.github.horaciocome1.leiloa.data.config.RemoteConfigRepository
 import io.github.horaciocome1.leiloa.data.product.ProductsRepository
 import io.github.horaciocome1.leiloa.util.ObservableViewModel
 import io.github.horaciocome1.leiloa.util.navigate
 import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 
-class ProductIdViewModel : ObservableViewModel() {
+class ProductIdViewModel: ObservableViewModel() {
 
-    private val companiesRepository: CompaniesRepository by lazy {
-        CompaniesRepository.getInstance()
-    }
-
-    private val productsRepository: ProductsRepository by lazy {
-        ProductsRepository.getInstance()
-    }
-
-    private val remoteConfigRepository: RemoteConfigRepository by lazy {
-        RemoteConfigRepository.getInstance()
-    }
-
-    var companyDomain: String = ""
+    lateinit var companyDomain: String
 
     @Bindable
     val productId: MutableLiveData<String> = MutableLiveData<String>()
 
     fun doDomainBelongToMeAsync() =
-        companiesRepository.doDomainBelongToMeAsync(companyDomain)
+        CompaniesRepository.doDomainBelongToMeAsync(companyDomain)
 
     fun retrieveProductIdMaxLengthAsync() =
-        remoteConfigRepository.retrieveProductIdMaxLengthAsync()
+        RemoteConfigRepository.retrieveProductIdMaxLengthAsync()
 
     fun navigateToProductAsync(view: View): Deferred<Boolean> =
         viewModelScope.async {
-            val isReal = productsRepository
+            val isReal = ProductsRepository
                 .isProductIdRealAsync(companyDomain, productId.value!!)
                 .await()
             if (!isReal)

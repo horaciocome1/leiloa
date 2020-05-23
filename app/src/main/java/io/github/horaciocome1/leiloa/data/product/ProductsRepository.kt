@@ -4,20 +4,9 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 
-class ProductsRepository private constructor(
+object ProductsRepository: ProductsServiceInterface {
+
     private val service: ProductsService = ProductsService()
-) : ProductsServiceInterface {
-
-    companion object {
-
-        @Volatile
-        private var instance: ProductsRepository? = null
-
-        fun getInstance() = instance ?: synchronized(this) {
-            instance ?: ProductsRepository().also { instance = it }
-        }
-
-    }
 
     override fun isProductIdRealAsync(
         companyDomain: String,

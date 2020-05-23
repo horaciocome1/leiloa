@@ -14,14 +14,6 @@ import kotlinx.coroutines.async
 
 class CompanyDomainViewModel : ObservableViewModel() {
 
-    private val companiesRepository: CompaniesRepository by lazy {
-        CompaniesRepository.getInstance()
-    }
-
-    private val remoteConfigRepository: RemoteConfigRepository by lazy {
-        RemoteConfigRepository.getInstance()
-    }
-
     @Bindable
     val companyDomain: MutableLiveData<String> = MutableLiveData<String>()
 
@@ -32,7 +24,7 @@ class CompanyDomainViewModel : ObservableViewModel() {
      */
     fun navigateToProductIdAsync(view: View): Deferred<Boolean> =
         viewModelScope.async {
-            val isReal = companiesRepository.isDomainRealAsync(companyDomain.value!!)
+            val isReal = CompaniesRepository.isDomainRealAsync(companyDomain.value!!)
                 .await()
             if (!isReal)
                 return@async false
@@ -41,7 +33,7 @@ class CompanyDomainViewModel : ObservableViewModel() {
         }
 
     fun retrieveCompanyDomainMaxLengthAsync(): Deferred<Long> =
-        remoteConfigRepository.retrieveCompanyDomainMaxLengthAsync()
+        RemoteConfigRepository.retrieveCompanyDomainMaxLengthAsync()
 
     fun navigateToRegister(view: View) =
         CompanyDomainFragmentDirections

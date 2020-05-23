@@ -12,9 +12,9 @@ object RemoteConfigDefaults {
 
     val DEFAULTS: Map<String, Any> by lazy {
         mapOf(
-            MAX_LENGTH_COMPANY_DOMAIN to 70,
-            MAX_LENGTH_PRODUCT_ID to 70,
-            MAX_LENGTH_TERMS_AND_CONDITIONS to 300,
+            MAX_LENGTH_COMPANY_DOMAIN to 30,
+            MAX_LENGTH_PRODUCT_ID to 30,
+            MAX_LENGTH_TERMS_AND_CONDITIONS to 120,
             MAX_LENGTH_START_PRICE to 5,
             START_ACTIVE_BY_DEFAULT to true
         )

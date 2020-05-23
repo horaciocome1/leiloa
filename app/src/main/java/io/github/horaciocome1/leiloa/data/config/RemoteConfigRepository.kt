@@ -3,21 +3,9 @@ package io.github.horaciocome1.leiloa.data.config
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-class RemoteConfigRepository private constructor(
+object RemoteConfigRepository : RemoteConfigInterface {
+
     private val service: RemoteConfigService = RemoteConfigService()
-) : RemoteConfigInterface {
-
-    companion object {
-
-        private var instance: RemoteConfigRepository? = null
-
-        fun getInstance() = instance ?: synchronized(this) {
-            instance ?: RemoteConfigRepository().also {
-                instance = it
-            }
-        }
-
-    }
 
     override fun retrieveCompanyDomainMaxLengthAsync(): Deferred<Long> =
         service.retrieveCompanyDomainMaxLengthAsync()

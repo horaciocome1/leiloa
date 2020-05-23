@@ -23,41 +23,31 @@ import kotlinx.coroutines.tasks.await
 
 class ProductViewModel : ObservableViewModel() {
 
-    private val productsRepository: ProductsRepository by lazy {
-        ProductsRepository.getInstance()
-    }
+    lateinit var companyDomain: String
 
-    private val participantsRepository: ParticipantsRepository by lazy {
-        ParticipantsRepository.getInstance()
-    }
+    lateinit var productId: String
 
-    private val companiesRepository: CompaniesRepository by lazy {
-        CompaniesRepository.getInstance()
-    }
-
-    var companyDomain: String = ""
-    var productId: String = ""
     var productActive: Boolean = false
 
     @ExperimentalCoroutinesApi
     fun watchProduct(): Flow<Product> =
-        productsRepository.watchProduct(companyDomain, productId)
+        ProductsRepository.watchProduct(companyDomain, productId)
 
     fun doDomainBelongToMeAsync(): Deferred<Boolean> =
-        companiesRepository.doDomainBelongToMeAsync(companyDomain)
+        CompaniesRepository.doDomainBelongToMeAsync(companyDomain)
 
     fun setActiveStatusAsync(isActive: Boolean = true): Deferred<Boolean> =
         viewModelScope.async {
             if (isActive == productActive)
                 return@async false
-            return@async productsRepository
+            return@async ProductsRepository
                 .setActiveStatusAsync(companyDomain, productId, isActive)
                 .await()
         }
 
     @ExperimentalCoroutinesApi
     fun watchParticipants(): Flow<List<Participant>> =
-        participantsRepository.watchParticipants(companyDomain, productId)
+        ParticipantsRepository.watchParticipants(companyDomain, productId)
 
     fun retrieveDynamicLinkAsync(fallbackUrl: Uri) = viewModelScope.async {
         try {
@@ -85,7 +75,7 @@ class ProductViewModel : ObservableViewModel() {
         view.isEnabled = false
         val offer = topOffer + ParticipantsService.INCREASE_100
         viewModelScope.launch {
-            participantsRepository.setPriceAsync(companyDomain, productId, offer)
+            ParticipantsRepository.setPriceAsync(companyDomain, productId, offer)
                 .await()
             view.isEnabled = true
         }
@@ -95,7 +85,7 @@ class ProductViewModel : ObservableViewModel() {
         view.isEnabled = false
         val offer = topOffer + ParticipantsService.INCREASE_500
         viewModelScope.launch {
-            participantsRepository.setPriceAsync(companyDomain, productId, offer)
+            ParticipantsRepository.setPriceAsync(companyDomain, productId, offer)
                 .await()
             view.isEnabled = true
         }
@@ -105,7 +95,7 @@ class ProductViewModel : ObservableViewModel() {
         view.isEnabled = false
         val offer = topOffer + ParticipantsService.INCREASE_1000
         viewModelScope.launch {
-            participantsRepository.setPriceAsync(companyDomain, productId, offer)
+            ParticipantsRepository.setPriceAsync(companyDomain, productId, offer)
                 .await()
             view.isEnabled = true
         }

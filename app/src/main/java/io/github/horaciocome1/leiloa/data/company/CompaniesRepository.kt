@@ -2,20 +2,9 @@ package io.github.horaciocome1.leiloa.data.company
 
 import kotlinx.coroutines.Deferred
 
-class CompaniesRepository private constructor(
+object CompaniesRepository: CompaniesServiceInterface {
+
     private val service: CompaniesService = CompaniesService()
-) : CompaniesServiceInterface {
-
-    companion object {
-
-        @Volatile
-        private var instance: CompaniesRepository? = null
-
-        fun getInstance() = instance ?: synchronized(this) {
-            instance ?: CompaniesRepository().also { instance = it }
-        }
-
-    }
 
     override fun isDomainRealAsync(companyDomain: String): Deferred<Boolean> =
         service.isDomainRealAsync(companyDomain)

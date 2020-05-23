@@ -15,14 +15,6 @@ import kotlinx.coroutines.async
 
 class ProductIdRegisterViewModel : ObservableViewModel() {
 
-    private val productsRepository: ProductsRepository by lazy {
-        ProductsRepository.getInstance()
-    }
-
-    private val remoteConfigRepository: RemoteConfigRepository by lazy {
-        RemoteConfigRepository.getInstance()
-    }
-
     lateinit var companyDomain: String
 
     @Bindable
@@ -35,25 +27,25 @@ class ProductIdRegisterViewModel : ObservableViewModel() {
     val startOffer: MutableLiveData<String> = MutableLiveData<String>()
 
     fun retrieveProductIdMaxLengthAsync() =
-        remoteConfigRepository.retrieveProductIdMaxLengthAsync()
+        RemoteConfigRepository.retrieveProductIdMaxLengthAsync()
 
     fun retrieveTermsAndConditionsMaxLengthAsync() =
-        remoteConfigRepository.retrieveTermsAndConditionsMaxLengthAsync()
+        RemoteConfigRepository.retrieveTermsAndConditionsMaxLengthAsync()
 
     fun retrieveStartPriceMaxLengthAsync() =
-        remoteConfigRepository.retrieveStartPriceMaxLengthAsync()
+        RemoteConfigRepository.retrieveStartPriceMaxLengthAsync()
 
     fun retrieveStartActiveAsync() =
-        remoteConfigRepository.retrieveStartActiveAsync()
+        RemoteConfigRepository.retrieveStartActiveAsync()
 
     fun registerProductAsync(view: View, isActive: Boolean): Deferred<Boolean> =
         viewModelScope.async {
-            val isSuccessful = productsRepository
+            val isSuccessful = ProductsRepository
                 .isProductIdAvailableAsync(companyDomain, productId.value!!)
                 .await()
             if (!isSuccessful)
                 return@async false
-            val id = productsRepository.registerProductAsync(
+            val id = ProductsRepository.registerProductAsync(
                 companyDomain,
                 Product(
                     id = productId.value!!,
