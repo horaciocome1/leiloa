@@ -14,11 +14,8 @@ import io.github.horaciocome1.leiloa.data.product.Product
 import io.github.horaciocome1.leiloa.data.product.ProductsRepository
 import io.github.horaciocome1.leiloa.util.ObservableViewModel
 import io.github.horaciocome1.leiloa.util.myCrashlytics
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.async
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 class ProductViewModel : ObservableViewModel() {
@@ -28,6 +25,8 @@ class ProductViewModel : ObservableViewModel() {
     lateinit var productId: String
 
     var productActive: Boolean = false
+
+    private var increasePriceJob: Job? = null
 
     @ExperimentalCoroutinesApi
     fun watchProduct(): Flow<Product> =
@@ -71,34 +70,25 @@ class ProductViewModel : ObservableViewModel() {
         }
     }
 
-    fun increase100(view: View, topOffer: Int) {
-        view.isEnabled = false
-        val offer = topOffer + ParticipantsService.INCREASE_100
-        viewModelScope.launch {
+    private fun increasePrice(offer: Int) {
+        increasePriceJob?.cancel()
+        increasePriceJob = viewModelScope.launch {
             ParticipantsRepository.setPriceAsync(companyDomain, productId, offer)
                 .await()
-            view.isEnabled = true
         }
+        increasePriceJob!!.invokeOnCompletion { increasePriceJob = null }
     }
 
-    fun increase500(view: View, topOffer: Int) {
-        view.isEnabled = false
-        val offer = topOffer + ParticipantsService.INCREASE_500
-        viewModelScope.launch {
-            ParticipantsRepository.setPriceAsync(companyDomain, productId, offer)
-                .await()
-            view.isEnabled = true
-        }
+    fun increase100(topOffer: Int) {
+        increasePrice(offer = topOffer + ParticipantsService.INCREASE_100)
     }
 
-    fun increase1000(view: View, topOffer: Int) {
-        view.isEnabled = false
-        val offer = topOffer + ParticipantsService.INCREASE_1000
-        viewModelScope.launch {
-            ParticipantsRepository.setPriceAsync(companyDomain, productId, offer)
-                .await()
-            view.isEnabled = true
-        }
+    fun increase500(topOffer: Int) {
+        increasePrice(offer = topOffer + ParticipantsService.INCREASE_500)
+    }
+
+    fun increase1000(topOffer: Int) {
+        increasePrice(offer = topOffer + ParticipantsService.INCREASE_1000)
     }
 
 }
